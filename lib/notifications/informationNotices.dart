@@ -38,6 +38,105 @@ class _informationNotiesState extends State<informationNoties> {
     super.initState();
   }
 
+  Padding card(
+    index,
+    id,
+    seen,
+    date,
+    context,
+    title,
+    text,
+  ) =>
+      Padding(
+        padding: EdgeInsets.fromLTRB(24, 15, 24, 0),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          color: headColor,
+          child: Column(
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(18, 8, 0, 0),
+                    child: DecoratedIcon(
+                      icon: Icon(Icons.notifications,
+                          color: seen == "Mesaj_Okunmadı"
+                              ? primaryBrand
+                              : headColor),
+                      decoration: IconDecoration(
+                          border: seen == "Mesaj_Okunmadı"
+                              ? IconBorder()
+                              : IconBorder(width: 5, color: primaryBrand)),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
+                    child: Text(
+                      seen == "Mesaj_Okundu" ? "Okundu" : "Okunmadı",
+                      style: TextStyle(
+                          color: seen == "Mesaj_Okunmadı"
+                              ? primaryBrand
+                              : primaryGray,
+                          fontSize: 14,
+                          fontWeight: seen == "Mesaj_Okunmadı"
+                              ? FontWeight.bold
+                              : FontWeight.normal),
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0, 8, 14, 0),
+                    child: Text(
+                      date,
+                      style: TextStyle(
+                          color: primaryBrand,
+                          fontSize: 12,
+                          fontFamily: 'Inter'),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                            color: Colors.black54, fontWeight: FontWeight.w400),
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        updateStatue(id, "5");
+                        setState(() {
+                          widget.data[index].MessageStatus = "Mesaj_Okundu";
+                        });
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => notificationDetail(
+                                      id: id,
+                                      date: date,
+                                      title: title,
+                                      text: text,
+                                    )));
+                      },
+                      icon: Icon(
+                        Icons.keyboard_arrow_right,
+                        color: bgColor,
+                      )),
+                ],
+              )
+            ],
+          ),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +162,7 @@ class _informationNotiesState extends State<informationNoties> {
           child: ListView.builder(
             itemCount: list.length,
             itemBuilder: ((context, index) => card(
+                index,
                 list[index].PushLogId,
                 list[index].MessageStatus,
                 list[index].SendingDate,
@@ -75,96 +175,3 @@ class _informationNotiesState extends State<informationNoties> {
     );
   }
 }
-
-Padding card(
-  id,
-  seen,
-  date,
-  context,
-  title,
-  text,
-) =>
-    Padding(
-      padding: EdgeInsets.fromLTRB(24, 15, 24, 0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        color: headColor,
-        child: Column(
-          children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(18, 8, 0, 0),
-                  child: DecoratedIcon(
-                    icon: Icon(Icons.notifications,
-                        color: seen == "Mesaj_Okunmadı"
-                            ? primaryBrand
-                            : headColor),
-                    decoration: IconDecoration(
-                        border: seen == "Mesaj_Okunmadı"
-                            ? IconBorder()
-                            : IconBorder(width: 5, color: primaryBrand)),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-                  child: Text(
-                    seen == "Mesaj_Okundu" ? "Okundu" : "Okunmadı",
-                    style: TextStyle(
-                        color: seen == "Mesaj_Okunmadı"
-                            ? primaryBrand
-                            : primaryGray,
-                        fontSize: 14,
-                        fontWeight: seen == "Mesaj_Okunmadı"
-                            ? FontWeight.bold
-                            : FontWeight.normal),
-                  ),
-                ),
-                Spacer(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 8, 14, 0),
-                  child: Text(
-                    date,
-                    style: TextStyle(
-                        color: primaryBrand, fontSize: 12, fontFamily: 'Inter'),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.fromLTRB(15, 15, 0, 15),
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                          color: Colors.black54, fontWeight: FontWeight.w400),
-                    ),
-                  ),
-                ),
-                IconButton(
-                    onPressed: () {
-                      updateStatue(id, "5");
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => notificationDetail(
-                                    id: id,
-                                    date: date,
-                                    title: title,
-                                    text: text,
-                                  )));
-                    },
-                    icon: Icon(
-                      Icons.keyboard_arrow_right,
-                      color: bgColor,
-                    )),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
