@@ -15,12 +15,13 @@ class myAppointment extends StatefulWidget {
 
 // ignore: camel_case_types
 class _myAppointmentState extends State<myAppointment> {
-  List<Log>? future;
+  late Future<List<Log>> future;
   String searchString = "";
 
   @override
   void initState() {
-    getLawyerAppointsmentByImeiNo().then((value) => future = value);
+    // getLawyerAppointsmentByImeiNo("A8B4084027").then((value) => future = value);
+    future = getLawyerAppointsmentByImeiNo("A8B4084027");
     print("init");
     super.initState();
   }
@@ -45,7 +46,7 @@ class _myAppointmentState extends State<myAppointment> {
                     borderRadius: BorderRadius.circular(5),
                     color: headColor,
                     border: Border.all(color: primaryBrand)),
-                width: 350,
+                width: MediaQuery.of(context).size.width * 0.87,
                 height: 50,
                 child: Row(
                   children: [
@@ -57,7 +58,7 @@ class _myAppointmentState extends State<myAppointment> {
                       ),
                     ),
                     SizedBox(
-                      width: 200,
+                      width: MediaQuery.of(context).size.width * 0.75,
                       height: 30,
                       child: Padding(
                         padding: EdgeInsets.fromLTRB(20.0, 13.0, 0.0, 0.0),
@@ -109,7 +110,7 @@ class _myAppointmentState extends State<myAppointment> {
   TextEditingController editingController = TextEditingController();
 
   Container bottomButton() => Container(
-        width: 600,
+        width: MediaQuery.of(context).size.width,
         height: 100,
         color: headColor,
         child: Column(
@@ -131,7 +132,7 @@ class _myAppointmentState extends State<myAppointment> {
                       );
                     },
                     child: SizedBox(
-                        width: 300,
+                        width: MediaQuery.of(context).size.width / 2,
                         height: 24,
                         child: Text(
                           "Yeni Randevu Al",
@@ -203,6 +204,7 @@ class _myAppointmentState extends State<myAppointment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           toolbarHeight: 80,
           leadingWidth: 110,
@@ -221,11 +223,18 @@ class _myAppointmentState extends State<myAppointment> {
         bottomSheet: bottomButton(),
         // body: futureBody(foundDatas)
         body: FutureBuilder<List<Log>>(
-            future: getLawyerAppointsmentByImeiNo(),
+            future: future,
             builder: ((context, snapshot) {
-              if (snapshot.hasData) {
-                print("body ${snapshot.data?.isEmpty}");
-                return futureBody(snapshot.data!);
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasData) {
+                  print("body ${snapshot.data?.isEmpty}");
+                  return futureBody(snapshot.data!);
+                } else {
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: Center(child: Text('Randevunuz bulunmamaktadır.')),
+                  );
+                }
               } else {
                 return Container(
                   height: MediaQuery.of(context).size.height,

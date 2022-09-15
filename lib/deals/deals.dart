@@ -46,12 +46,13 @@ class _dealsState extends State<deals> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 120.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 0.0, 0.0),
                     child: Text(
                       "Hakediş Tablosu",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                  Spacer(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(70.0, 28.0, 0.0, 0.0),
                     child: IconButton(
@@ -70,7 +71,7 @@ class _dealsState extends State<deals> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
                 child: Container(
-                  width: 350,
+                  width: MediaQuery.of(context).size.width,
                   height: 1,
                   color: primaryGray,
                 ),
@@ -78,12 +79,13 @@ class _dealsState extends State<deals> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 165.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 0.0, 0.0),
                     child: Text(
                       "Performans Tablosu",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                  Spacer(),
                   Padding(
                       padding: EdgeInsets.fromLTRB(0.0, 28.0, 0.0, 0.0),
                       child: IconButton(
@@ -101,7 +103,7 @@ class _dealsState extends State<deals> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
                 child: Container(
-                  width: 350,
+                  width: MediaQuery.of(context).size.width,
                   height: 1,
                   color: primaryGray,
                 ),
@@ -109,12 +111,13 @@ class _dealsState extends State<deals> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 15.0, 210.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 15.0, 0.0, 0.0),
                     child: Text(
                       "İşlem Tablosu",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                  Spacer(),
                   Padding(
                       padding: EdgeInsets.fromLTRB(0.0, 28.0, 0.0, 0.0),
                       child: IconButton(

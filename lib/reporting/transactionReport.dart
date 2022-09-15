@@ -16,7 +16,10 @@ class transactionReport extends StatefulWidget {
 
 // ignore: camel_case_types
 class _transactionReportState extends State<transactionReport> {
-  TextEditingController dateinput = TextEditingController();
+  TextEditingController dateInputStart = TextEditingController();
+  TextEditingController dateInputEnd = TextEditingController();
+  late DateTime d1;
+  late DateTime d2;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +32,7 @@ class _transactionReportState extends State<transactionReport> {
             color: Colors.black,
           ),
           onPressed: () {
-           Navigator.pop(context);
+            Navigator.pop(context);
           },
         ),
         backgroundColor: headColor,
@@ -40,12 +43,18 @@ class _transactionReportState extends State<transactionReport> {
         child: Center(
           child: Column(
             children: [
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 24.0, 220.0, 0.0),
-                child: Text(
-                  "Lütfen Tarih aralığı seçiniz.",
-                  style: TextStyle(fontSize: 12),
-                ),
+              Row(
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(24.0, 24, 0, 0),
+                    child: const Text(
+                      "Lütfen Tarih aralığı seçiniz.",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                  ),
+                ],
               ),
               Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 22.0, 0.0, 0.0),
@@ -54,12 +63,12 @@ class _transactionReportState extends State<transactionReport> {
                       borderRadius: BorderRadius.circular(8.0),
                       color: headColor,
                       border: Border.all(color: primaryBrand)),
-                  width: 360,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: 50,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(16.0, 0, 0, 0),
                     child: TextField(
-                      controller: dateinput,
+                      controller: dateInputStart,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         icon: Icon(
@@ -79,7 +88,9 @@ class _transactionReportState extends State<transactionReport> {
                           String formattedDate =
                               DateFormat('yyyy-MM-dd').format(pickedDate);
                           setState(() {
-                            dateinput.text = formattedDate;
+                            d1 = pickedDate;
+
+                            dateInputStart.text = formattedDate;
                           });
                         } else {}
                       },
@@ -94,12 +105,12 @@ class _transactionReportState extends State<transactionReport> {
                       borderRadius: BorderRadius.circular(8.0),
                       color: headColor,
                       border: Border.all(color: primaryBrand)),
-                  width: 360,
+                  width: MediaQuery.of(context).size.width * 0.9,
                   height: 50,
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(16.0, 0, 0, 0),
                     child: TextField(
-                      controller: dateinput,
+                      controller: dateInputEnd,
                       decoration: InputDecoration(
                         border: InputBorder.none,
                         icon: Icon(
@@ -110,18 +121,24 @@ class _transactionReportState extends State<transactionReport> {
                       ),
                       readOnly: true,
                       onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2101));
-                        if (pickedDate != null) {
-                          String formattedDate =
-                              DateFormat('yyyy-MM-dd').format(pickedDate);
-                          setState(() {
-                            dateinput.text = formattedDate;
-                          });
-                        } else {}
+                        if (dateInputStart.text.isNotEmpty) {
+                          DateTime? pickedDate = await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: d1,
+                              lastDate: DateTime(2101));
+                          if (pickedDate != null) {
+                            String formattedDate =
+                                DateFormat('yyyy-MM-dd').format(pickedDate);
+                            setState(() {
+                              d2 = pickedDate;
+
+                              dateInputEnd.text = formattedDate;
+                            });
+                          }
+                        } else {
+                          showAlertDialog(context, 2);
+                        }
                       },
                     ),
                   ),
@@ -134,11 +151,20 @@ class _transactionReportState extends State<transactionReport> {
                   height: 40,
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => searchResults()),
-                      );
+                      if (dateInputStart.text == "" ||
+                          dateInputEnd.text == "") {
+                        showAlertDialog(context, 1);
+                      } else if (d1.compareTo(d2) > 0) {
+                        showAlertDialog(context, 2);
+                      } else {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => searchResults(
+                                  startDate: dateInputStart.text,
+                                  endDate: dateInputEnd.text),
+                            ));
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                       primary: primaryBrand,
@@ -157,4 +183,55 @@ class _transactionReportState extends State<transactionReport> {
       ),
     );
   }
+}
+
+// Create AlertDialog
+
+showAlertDialog(BuildContext context, situation) {
+  // Create button
+  Widget okButton = TextButton(
+    child: Text(
+      "Tamam",
+      style: TextStyle(fontSize: 18, color: okColor),
+    ),
+    onPressed: () {
+      Navigator.pop(
+        context,
+      );
+    },
+  );
+
+  // Create AlertDialog
+  AlertDialog alert = AlertDialog(
+    actionsAlignment: MainAxisAlignment.center,
+    content: Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: Text(
+        situation == 1
+            ? "Lütfen iki tarih alanını da doldurun."
+            : "Lütfen önce başlangıç tarihini giriniz. ",
+        style: TextStyle(fontSize: 15),
+      ),
+    ),
+    actions: [
+      Column(
+        children: [
+          Container(
+            width: 500,
+            height: 0.5,
+            color: Colors.black26,
+          ),
+          okButton,
+        ],
+      )
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
 }

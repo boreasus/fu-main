@@ -25,7 +25,7 @@ class notificationDetail extends StatefulWidget {
 // ignore: camel_case_types
 class _notificationDetailState extends State<notificationDetail> {
   String readed = "Okunmadı olarak işaretle";
-
+  String backPressedDate = "Mesaj_Okundu";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +38,7 @@ class _notificationDetailState extends State<notificationDetail> {
             color: Colors.black,
           ),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, backPressedDate);
           },
         ),
         backgroundColor: headColor,
@@ -66,10 +66,17 @@ class _notificationDetailState extends State<notificationDetail> {
                     ),
                   ),
                   TextButton(
-                      onPressed: () {
-                        updateStatue("${widget.id}", "4");
+                      onPressed: () async {
+                        print(widget.id);
+                        await updateStatue(
+                            "${widget.id}", "4"); //burda hata var
                         setState(() {
-                          readed = "Okunmadı olarak işaretlendi";
+                          readed = readed == "Okunmadı olarak işaretle"
+                              ? "Okundu olarak işaretlendi"
+                              : "Okunmadı olarak işaretle";
+                          backPressedDate = readed == "Okunmadı olarak işaretle"
+                              ? "Mesaj_Okundu"
+                              : "Mesaj_Okunmadı";
                         });
                       },
                       child: Padding(
@@ -86,16 +93,16 @@ class _notificationDetailState extends State<notificationDetail> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(28, 28.0, 0, 0.0),
+              padding: EdgeInsets.fromLTRB(30, 28.0, 30, 0.0),
               child: Text(
                 widget.title,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
               ),
             ),
             Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+              padding: EdgeInsets.fromLTRB(30.0, 15.0, 30.0, 0.0),
               child: Container(
-                width: 350,
+                width: MediaQuery.of(context).size.width,
                 height: 1,
                 color: primaryGray,
               ),

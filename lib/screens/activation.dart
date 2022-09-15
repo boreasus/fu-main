@@ -282,7 +282,7 @@ class _ActivationState extends State<Activation> {
       );
 
   Widget buildScreenCall() => SizedBox(
-        width: 300,
+        width: MediaQuery.of(context).size.width / 1.4 + 7,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: primaryBrand,
@@ -307,7 +307,7 @@ class _ActivationState extends State<Activation> {
       );
 
   Widget buildScreenButton() => SizedBox(
-        width: 300,
+        width: MediaQuery.of(context).size.width / 1.4 + 7,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: primaryBrand,

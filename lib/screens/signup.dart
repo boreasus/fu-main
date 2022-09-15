@@ -11,12 +11,57 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  showAlertDialogMiss(BuildContext context) {
+    // Create button
+    Widget okButton = TextButton(
+        child: Text(
+          "Tamam",
+          style: TextStyle(fontSize: 18, color: okColor),
+        ),
+        onPressed: () {
+          Navigator.pop(context);
+        });
+
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      actionsAlignment: MainAxisAlignment.center,
+      content: Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: Text(
+          "Lütfen TCKN ve Parola alanlarını eksiksiz doldurun.",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontSize: 14),
+        ),
+      ),
+      actions: [
+        Column(
+          children: [
+            Container(
+              width: 500,
+              height: 0.5,
+              color: Colors.black26,
+            ),
+            okButton,
+          ],
+        )
+      ],
+    );
+
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alert;
+        });
+  }
+
   final tckn = TextEditingController();
   final password = TextEditingController();
+
   @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: headColor,
           //LEADİNG
@@ -101,35 +146,33 @@ class _SignupState extends State<Signup> {
 
       //BODY
       backgroundColor: bgColor,
-      body: SingleChildScrollView(
-        child: Container(
-          height: 600,
-          padding: EdgeInsets.all(12),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Align(
-                alignment: Alignment(0.0, -0.9),
-                child: buildScreenText(),
-              ),
-              Align(
-                alignment: Alignment(0.0, -0.6),
-                child: buildScreenDesc(),
-              ),
-              Align(
-                alignment: Alignment(0.0, -0.3),
-                child: buildScreenId(),
-              ),
-              Align(
-                alignment: Alignment(0.0, -0.08),
-                child: buildScreenPass(),
-              ),
-              Align(
-                alignment: Alignment(0.0, 0.15),
-                child: buildScreenButton(),
-              ),
-            ],
-          ),
+      body: Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        padding: EdgeInsets.all(12),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Align(
+              alignment: Alignment(0.0, -0.9),
+              child: buildScreenText(),
+            ),
+            Align(
+              alignment: Alignment(0.0, -0.6),
+              child: buildScreenDesc(),
+            ),
+            Align(
+              alignment: Alignment(0.0, -0.3),
+              child: buildScreenId(),
+            ),
+            Align(
+              alignment: Alignment(0.0, -0.08),
+              child: buildScreenPass(),
+            ),
+            Align(
+              alignment: Alignment(0.0, 0.15),
+              child: buildScreenButton(),
+            ),
+          ],
         ),
       ),
     );
@@ -211,6 +254,7 @@ class _SignupState extends State<Signup> {
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: TextField(
+                onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 controller: tckn,
                 cursorColor: primaryBrand,
                 textAlign: TextAlign.center,
@@ -233,6 +277,7 @@ class _SignupState extends State<Signup> {
           child: Padding(
             padding: const EdgeInsets.only(left: 20.0),
             child: TextField(
+                onEditingComplete: () => FocusScope.of(context).nextFocus(),
                 controller: password,
                 cursorColor: primaryBrand,
                 textAlign: TextAlign.center,
@@ -257,64 +302,68 @@ class _SignupState extends State<Signup> {
           onPressed: () async {
             print("tckn " + tckn.text);
             print("pass " + password.text);
-            var result = await UpdatePinClient(password.text, tckn.text);
-            print(result);
-            if (result == "NOK_NOPIN") {
-              showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        title: Text('Kayıt Başarısız'),
-                        content:
-                            Text('Kullanıcı sistemde var ama kayıtlı değil.'),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Tamam')),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (constext) => Login(),
-                                  ),
-                                );
-                              },
-                              child: Text('DEVELOPER NEXT'))
-                        ],
-                      ));
-            } else if (result == "NOK") {
-              showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        title: Text('Kayıt Başarısız'),
-                        content: Text('Kullanıcı sisteme kayıtlı değil'),
-                        actions: [
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('Tamam')),
-                          ElevatedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (constext) => Login(),
-                                  ),
-                                );
-                              },
-                              child: Text('DEVELOPER NEXT'))
-                        ],
-                      ));
+            if (tckn.text.isEmpty || password.text.isEmpty) {
+              showAlertDialogMiss(context);
             } else {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (constext) => Login(),
-                ),
-              );
+              var result = await UpdatePinClient(password.text, tckn.text);
+              print(result);
+              if (result == "NOK_NOPIN") {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text('Kayıt Başarısız'),
+                          content:
+                              Text('Kullanıcı sistemde var ama kayıtlı değil.'),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Tamam')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (constext) => Login(),
+                                    ),
+                                  );
+                                },
+                                child: Text('DEVELOPER NEXT'))
+                          ],
+                        ));
+              } else if (result == "NOK") {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text('Kayıt Başarısız'),
+                          content: Text('Kullanıcı sisteme kayıtlı değil'),
+                          actions: [
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                child: Text('Tamam')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (constext) => Login(),
+                                    ),
+                                  );
+                                },
+                                child: Text('DEVELOPER NEXT'))
+                          ],
+                        ));
+              } else {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (constext) => Login(),
+                  ),
+                );
+              }
             }
 
             // ignore: avoid_print

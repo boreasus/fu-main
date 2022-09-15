@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:fu_mobile/services/loginByImeiNewService.dart';
 import 'package:fu_mobile/entity/LoginByImeiNew.dart';
 import 'package:fu_mobile/transactions/transactionDetail.dart';
@@ -19,6 +20,8 @@ class _ViewTransactionsState extends State<ViewTransactions> {
   List list = [];
   List counter = [];
   String categories = "Tümü";
+  TextEditingController searchController = TextEditingController();
+  String searchValue = "";
 
   Map<String, Color> colors = {
     '1': Color.fromARGB(255, 149, 149, 149),
@@ -32,6 +35,54 @@ class _ViewTransactionsState extends State<ViewTransactions> {
   String filter = "99";
   var filt = 0;
   Color clrCircle = primaryBrand;
+
+  SizedBox futureSizedBox(context, snapshot, colors, filter) {
+    List<Log> logList = [];
+    if (filter == "99") {
+      return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.65,
+        child: ListView.builder(
+          itemCount: snapshot.data!.length,
+          itemBuilder: ((context, index) => snapshot.data![index].Ad
+                  .toString()
+                  .toLowerCase()
+                  .contains(searchValue)
+              ? card(
+                  snapshot.data![index].Ad,
+                  snapshot.data![index].New_TapuRandevuTarihi,
+                  context,
+                  colors[snapshot.data![index].New_IsinTipi],
+                  snapshot.data![index].New_IsinTipi,
+                  snapshot.data![index].New_FuReferansNo,
+                )
+              : Container()),
+        ),
+      );
+    } else {
+      logList = snapshot.data!
+          .where((element) => element.New_IsinTipi == filter)
+          .toList();
+      return SizedBox(
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.65,
+        child: ListView.builder(
+          itemCount: logList.length,
+          itemBuilder: ((context, index) =>
+              logList[index].Ad.toString().toLowerCase().contains(searchValue)
+                  ? card(
+                      logList[index].Ad,
+                      logList[index].New_TapuRandevuTarihi,
+                      context,
+                      colors[logList[index].New_IsinTipi],
+                      logList[index].New_IsinTipi,
+                      snapshot.data![index].New_FuReferansNo,
+                    )
+                  : Container()),
+        ),
+      );
+    }
+  }
 
   FutureBuilder<List<Log>> futureBody(context, colors) => FutureBuilder(
       future: LoginByImeiNew("A8B4084027"),
@@ -71,10 +122,10 @@ class _ViewTransactionsState extends State<ViewTransactions> {
                           borderRadius: BorderRadius.circular(5),
                           color: headColor,
                           border: Border.all(color: primaryBrand)),
-                      width: 340,
+                      width: MediaQuery.of(context).size.width * 0.88,
                       height: 40,
                       child: Row(
-                        children: const [
+                        children: [
                           Padding(
                             padding: EdgeInsets.fromLTRB(13.0, 8.0, 0.0, 20.0),
                             child: Icon(
@@ -83,12 +134,18 @@ class _ViewTransactionsState extends State<ViewTransactions> {
                             ),
                           ),
                           SizedBox(
-                            width: 200,
+                            width: MediaQuery.of(context).size.width * 0.7,
                             height: 30,
                             child: Padding(
                               padding:
                                   EdgeInsets.fromLTRB(20.0, 13.0, 0.0, 0.0),
                               child: TextField(
+                                onChanged: (value) {
+                                  setState(() {
+                                    searchValue = value.toLowerCase();
+                                  });
+                                },
+                                controller: searchController,
                                 decoration: InputDecoration(
                                     border: InputBorder.none,
                                     hintText: "Arama"),
@@ -135,7 +192,13 @@ class _ViewTransactionsState extends State<ViewTransactions> {
                                           10.0, 27, 0.0, 0.0),
                                       child: TextButton(
                                           onPressed: () {
-                                            _showDialog(context);
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                            Future.delayed(
+                                                Duration(milliseconds: 500),
+                                                () async {
+                                              _showDialog(context);
+                                            });
                                           },
                                           child: Text(categories,
                                               style: TextStyle(
@@ -188,77 +251,79 @@ class _ViewTransactionsState extends State<ViewTransactions> {
       builder: (BuildContext context) {
         return AlertDialog(
           actions: <Widget>[
-            Column(
-              children: [
-                InkWell(
-                    onTap: (() {
-                      Navigator.pop(context, "99");
-                      setState(() {
-                        filter = "99";
-                        categories = "Tümü";
-                        clrCircle = primaryBrand;
-                      });
-                    }),
-                    child: AlertData("Tümü", "6", primaryBrand, 180)),
-                InkWell(child: ContainerLine()),
-                InkWell(
-                    onTap: () {
-                      Navigator.pop(context, "3");
-                      setState(() {
-                        filter = "2";
-                        categories = "Tapu Randevusu alınmış";
-                        clrCircle = blueColor;
-                      });
-                    },
-                    child: AlertData(
-                        "Tapu Randevusu alınmış", "6", blueColor, 65)),
-                ContainerLine(),
-                InkWell(
-                    onTap: () {
-                      Navigator.pop(context, "4");
-                      setState(() {
-                        filter = "1";
-                        categories = "İpotek Evrağı gönderilmiş";
-                        clrCircle = greenColor;
-                      });
-                    },
-                    child: AlertData(
-                        "İpotek Evrağı gönderilmiş", "6", greenColor, 60)),
-                ContainerLine(),
-                InkWell(
-                    onTap: () {
-                      Navigator.pop(context, "24");
-                      setState(() {
-                        filter = "24";
-                        categories = "Evrağı Gönderilmiş-Diğer";
-                        clrCircle = orngColor;
-                      });
-                    },
-                    child: AlertData(
-                        "Evrağı Gönderilmiş-Diğer", "6", orngColor, 63)),
-                ContainerLine(),
-                InkWell(
-                    onTap: () {
-                      Navigator.pop(context, "6");
-                      setState(() {
-                        filter = "3";
-                        categories = "Gönderilmeyen";
-                        clrCircle = redColor;
-                      });
-                    },
-                    child: AlertData("Gönderilmeyen", "6", redColor, 122)),
-                ContainerLine(),
-                InkWell(
-                    onTap: () {
-                      Navigator.pop(context, "7");
-                      setState(() {
-                        filter = "1";
-                        categories = "Diğer";
-                        clrCircle = gryColor;
-                      });
-                    },
-                    child: AlertData("Diğer", "6", gryColor, 183)),
-              ],
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  InkWell(
+                      onTap: (() {
+                        Navigator.pop(context, "99");
+                        setState(() {
+                          filter = "99";
+                          categories = "Tümü";
+                          clrCircle = primaryBrand;
+                        });
+                      }),
+                      child: AlertData("Tümü", "6", primaryBrand, 180)),
+                  InkWell(child: ContainerLine()),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context, "3");
+                        setState(() {
+                          filter = "2";
+                          categories = "Tapu Randevusu alınmış";
+                          clrCircle = blueColor;
+                        });
+                      },
+                      child: AlertData(
+                          "Tapu Randevusu alınmış", "6", blueColor, 65)),
+                  ContainerLine(),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context, "4");
+                        setState(() {
+                          filter = "1";
+                          categories = "İpotek Evrağı gönderilmiş";
+                          clrCircle = greenColor;
+                        });
+                      },
+                      child: AlertData(
+                          "İpotek Evrağı gönderilmiş", "6", greenColor, 60)),
+                  ContainerLine(),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context, "24");
+                        setState(() {
+                          filter = "24";
+                          categories = "Evrağı Gönderilmiş-Diğer";
+                          clrCircle = orngColor;
+                        });
+                      },
+                      child: AlertData(
+                          "Evrağı Gönderilmiş-Diğer", "6", orngColor, 63)),
+                  ContainerLine(),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context, "6");
+                        setState(() {
+                          filter = "3";
+                          categories = "Gönderilmeyen";
+                          clrCircle = redColor;
+                        });
+                      },
+                      child: AlertData("Gönderilmeyen", "6", redColor, 122)),
+                  ContainerLine(),
+                  InkWell(
+                      onTap: () {
+                        Navigator.pop(context, "7");
+                        setState(() {
+                          filter = "1";
+                          categories = "Diğer";
+                          clrCircle = gryColor;
+                        });
+                      },
+                      child: AlertData("Diğer", "6", gryColor, 183)),
+                ],
+              ),
             ),
           ],
         );
@@ -269,6 +334,8 @@ class _ViewTransactionsState extends State<ViewTransactions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
+        bottomSheet: Container(height: 1),
         appBar: AppBar(
           toolbarHeight: 80,
           leadingWidth: 110,
@@ -286,46 +353,6 @@ class _ViewTransactionsState extends State<ViewTransactions> {
               style: TextStyle(color: primaryBrand)),
         ),
         body: futureBody(context, colors));
-  }
-}
-
-SizedBox futureSizedBox(context, snapshot, colors, filter) {
-  List<Log> logList = [];
-  if (filter == "99") {
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.9,
-      height: MediaQuery.of(context).size.height * 0.65,
-      child: ListView.builder(
-        itemCount: snapshot.data!.length,
-        itemBuilder: ((context, index) => card(
-              snapshot.data![index].Ad,
-              snapshot.data![index].New_TapuRandevuTarihi,
-              context,
-              colors[snapshot.data![index].New_IsinTipi],
-              snapshot.data![index].New_IsinTipi,
-              snapshot.data![index].New_FuReferansNo,
-            )),
-      ),
-    );
-  } else {
-    logList = snapshot.data!
-        .where((element) => element.New_IsinTipi == filter)
-        .toList();
-    return SizedBox(
-      width: MediaQuery.of(context).size.width * 0.9,
-      height: MediaQuery.of(context).size.height * 0.65,
-      child: ListView.builder(
-        itemCount: logList.length,
-        itemBuilder: ((context, index) => card(
-              logList[index].Ad,
-              logList[index].New_TapuRandevuTarihi,
-              context,
-              colors[logList[index].New_IsinTipi],
-              logList[index].New_IsinTipi,
-              snapshot.data![index].New_FuReferansNo,
-            )),
-      ),
-    );
   }
 }
 

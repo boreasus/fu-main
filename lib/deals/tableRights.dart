@@ -46,12 +46,13 @@ class _tableRightsState extends State<tableRights> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 90.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 0.0, 0.0),
                     child: Text(
                       "Yapılacak Mutabakatlarım",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                  Spacer(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(20.0, 28.0, 0.0, 0.0),
                     child: IconButton(
@@ -70,7 +71,7 @@ class _tableRightsState extends State<tableRights> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
                 child: Container(
-                  width: 350,
+                  width: MediaQuery.of(context).size.width,
                   height: 1,
                   color: primaryGray,
                 ),
@@ -78,12 +79,13 @@ class _tableRightsState extends State<tableRights> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 90.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 0.0, 0.0),
                     child: Text(
                       "Tamamlanan Mutabakatlarım",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                  Spacer(),
                   Padding(
                     padding: EdgeInsets.fromLTRB(0.0, 28.0, 0.0, 0.0),
                     child: IconButton(

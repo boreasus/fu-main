@@ -1,94 +1,52 @@
-class Data2 {
-  late List<LogText> logText;
-  late LogText? logText2;
-  // late LogText logText;
+class Data {
+  late List<Log> log;
+  late Log log2;
 
-  Data2({
-    required this.logText,
-  });
+  Data({required this.log});
 
-  Data2.fromJson(Map<String, dynamic> json) {
-    logText = <LogText>[];
-    print("json");
-    print(json['data']);
+  Data.fromJson(Map<String, dynamic> json) {
     try {
+      log = <Log>[];
       json['data'].forEach((v) {
-        logText.add(new LogText.fromJson(v));
+        log.add(new Log.fromJson(v));
       });
     } catch (e) {
-      logText2 = LogText.fromJson(json['data']);
+      log2 = Log.fromJson(json['data']);
     }
-  }
-
-  // Data2.fromJson(Map<String, dynamic> json) {
-  //   logText = LogText.fromJson(json['data']);
-  // }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> variable = Map<String, dynamic>();
-    variable['data'] = this.logText2!.toJson();
-
-    variable['data'] = this.logText.map((v) => v.toJson()).toList();
-
-    return variable;
   }
 }
 
-/*{
-  "data": {
-    "BankaAdı": "AKBANK A.Ş.",
-    "Oc": "-",
-    "Şu": "-",
-    "Ma": "-",
-    "Ni": "-",
-    "May": "-",
-    "Ha": "1",
-    "Te": "-",
-    "Ağ": "-"
-  }
-} */
-
 //SUB CLASS
-class LogText {
+class Log {
   late String BankaAdi;
-  late String Oc;
-  late String Su;
-  late String Ma;
-  late String Ni;
-  late String May;
-  late String Ha;
-  late String Te;
-  late String Ag;
+  late String Ocak;
+  late String Subat;
+  late String Mart;
+  late String Nisan;
+  late String Mayis;
+  late String Haziran;
+  late String Temmuz;
+  late String Agustos;
+  late String Eylul;
+  late String Ekim;
+  late String Kasim;
+  late String Aralik;
 
-  LogText({
-    required this.BankaAdi,
-    required this.Oc,
-    required this.Su,
-  });
+  Log(this.BankaAdi);
 
-  LogText.fromJson(Map<String, dynamic> json) {
+  Log.fromJson(Map<String, dynamic> json) {
     BankaAdi = json['BankaAdı'];
-    Oc = json['Oc'];
-    Su = json['Şu'];
-    Ma = json['Ma'];
-    Ni = json['Ni'];
-    May = json['May'];
-    Ha = json['Ha'];
-    Te = json['Te'];
-    Ag = json['Ağ'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['BankaAdı'] = this.BankaAdi;
-    data['Oc'] = this.Oc;
-    data['Şu'] = this.Su;
-    data['Ma'] = this.Ma;
-    data['Ni'] = this.Ni;
-    data['May'] = this.May;
-    data['Ha'] = this.Ha;
-    data['Te'] = this.Te;
-    data['Ag'] = this.Ag;
-    return data;
+    Ocak = json['Oc'] ?? "-";
+    Subat = json['Şu'] ?? "-";
+    Mart = json['Ma'] ?? "-";
+    Nisan = json['Ni'] ?? "-";
+    Mayis = json['May'] ?? "-";
+    Haziran = json['Ha'] ?? "-";
+    Temmuz = json['Te'] ?? "-";
+    Agustos = json['Ağ'] ?? "-";
+    Eylul = json['Ey'] ?? "-";
+    Ekim = json['Ek'] ?? "-";
+    Kasim = json['Ka'] ?? "-";
+    Aralik = json['Ar'] ?? "-";
   }
 }

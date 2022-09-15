@@ -23,6 +23,7 @@ class _homePageState extends State<homePage> {
   @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
+    var buttonWidth = MediaQuery.of(context).size.width * 0.8;
     var padding2 = Padding(
       padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
       child: SizedBox(
@@ -58,6 +59,10 @@ class _homePageState extends State<homePage> {
       ),
     );
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      bottomSheet: Container(
+        height: 1,
+      ),
       appBar: AppBar(
           backgroundColor: headColor,
           //LEADİNG
@@ -167,318 +172,398 @@ class _homePageState extends State<homePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ViewTransactions()));
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.list_alt_outlined,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 60.0, 0.0),
-                            child: Text(
-                              "İşlemleri Görüntüle",
+                padding: const EdgeInsets.only(top: 24),
+                child: Container(
+                  height: MediaQuery.of(context).size.height * 0.72,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            "2",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 60,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => delivery()),
-                        );
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.send_to_mobile,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 30.0, 0.0),
-                            child: Text(
-                              "Evrak Teslimi Gönderilicek\nİşlemler",
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ViewTransactions()));
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.list_alt_outlined,
+                                    color: primaryBrand,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        50.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      "İşlemleri Görüntüle",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "2",
+                                      style: TextStyle(
+                                          color: primaryBrand, fontSize: 16),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            " ",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => notifications()),
-                        );
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.notifications_none,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 125.0, 0.0),
-                            child: Text(
-                              "Bildirimler",
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => delivery()),
+                                );
+                              },
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Icons.send_to_mobile,
+                                    color: primaryBrand,
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width *
+                                        0.127,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      // ignore: prefer_const_literals_to_create_immutables
+                                      children: [
+                                        Text(
+                                          "Evrak Teslimi\nGönderilicek İşlemler",
+                                          style: TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black),
+                                        ),
+                                        Visibility(
+                                            visible: false, child: Text('')),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            "30",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => myPermissions()),
-                        );
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.date_range,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 132.0, 0.0),
-                            child: Text(
-                              "İzin Girişi",
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => notifications()),
+                                );
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.notifications_none,
+                                    color: primaryBrand,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        50.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      "Bildirimler",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "30",
+                                      style: TextStyle(
+                                          color: primaryBrand, fontSize: 16),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            " ",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => myAppointment()),
-                        );
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.format_list_numbered_sharp,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 100.0, 0.0),
-                            child: Text(
-                              "Randevularım",
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => myPermissions()),
+                                );
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.date_range,
+                                    color: primaryBrand,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        50.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      "İzin Girişi",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                  Text(
+                                    " ",
+                                    style: TextStyle(
+                                        color: primaryBrand, fontSize: 16),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            "2",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => visits()),
-                        );
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.location_on_outlined,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 130.0, 0.0),
-                            child: Text(
-                              "Ziyaretler",
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => myAppointment()),
+                                );
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.format_list_numbered_sharp,
+                                    color: primaryBrand,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        50.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      "Randevularım",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "2",
+                                      style: TextStyle(
+                                          color: primaryBrand, fontSize: 16),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            " ",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => reporting()),
-                        );
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.report,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 132.0, 0.0),
-                            child: Text(
-                              "Raporlarım",
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => visits()),
+                                );
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.location_on_outlined,
+                                    color: primaryBrand,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        50.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      "Ziyaretler",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            " ",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => deals()),
-                        );
-                      },
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.list_outlined,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 87.0, 0.0),
-                            child: Text(
-                              "Mutabakatlarım",
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => reporting()),
+                                );
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.report,
+                                    color: primaryBrand,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        50.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      "Raporlarım",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                  Text(
+                                    " ",
+                                    style: TextStyle(
+                                        color: primaryBrand, fontSize: 16),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height:
+                              MediaQuery.of(context).size.height * 0.72 / 10 -
+                                  2,
+                          child: ElevatedButton(
                               style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            "2",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
+                                  ElevatedButton.styleFrom(primary: headColor),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => deals()),
+                                );
+                              },
+                              child: Row(
+                                children: const [
+                                  Icon(
+                                    Icons.list_outlined,
+                                    color: primaryBrand,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.fromLTRB(
+                                        50.0, 0.0, 0.0, 0.0),
+                                    child: Text(
+                                      "Mutabakatlarım",
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.black),
+                                    ),
+                                  ),
+                                  Spacer(),
+                                  Padding(
+                                    padding: EdgeInsets.only(right: 8.0),
+                                    child: Text(
+                                      "2",
+                                      style: TextStyle(
+                                          color: primaryBrand, fontSize: 16),
+                                    ),
+                                  )
+                                ],
+                              )),
+                        ),
+                      ),
+                      // Padding(
+                      //   padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+                      //   child: SizedBox(
+                      //     width: buttonWidth,
+                      //     height: 40,
+                      //     child: ElevatedButton(
+                      //         style:
+                      //             ElevatedButton.styleFrom(primary: headColor),
+                      //         onPressed: () {},
+                      //         child: Row(
+                      //           children: const [
+                      //             Icon(
+                      //               Icons.format_list_numbered_sharp,
+                      //               color: primaryBrand,
+                      //             ),
+                      //             Padding(
+                      //               padding: EdgeInsets.fromLTRB(
+                      //                   50.0, 0.0, 0.0, 0.0),
+                      //               child: Text(
+                      //                 "Gönderilmeyen İşlemler",
+                      //                 style: TextStyle(
+                      //                     fontSize: 16, color: Colors.black),
+                      //               ),
+                      //             ),
+                      //             Text(
+                      //               "",
+                      //               style: TextStyle(
+                      //                   color: primaryBrand, fontSize: 16),
+                      //             )
+                      //           ],
+                      //         )),
+                      //   ),
+                      // ),
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
-                  width: 330,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: headColor),
-                      onPressed: () {},
-                      child: Row(
-                        children: const [
-                          Icon(
-                            Icons.format_list_numbered_sharp,
-                            color: primaryBrand,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(50.0, 0.0, 30.0, 0.0),
-                            child: Text(
-                              "Gönderilmeyen İşlemler",
-                              style:
-                                  TextStyle(fontSize: 16, color: Colors.black),
-                            ),
-                          ),
-                          Text(
-                            "",
-                            style: TextStyle(color: primaryBrand, fontSize: 16),
-                          )
-                        ],
-                      )),
-                ),
-              ),
+              )
             ],
           ),
         ),

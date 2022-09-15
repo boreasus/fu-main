@@ -42,15 +42,17 @@ class _reportingState extends State<reporting> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 14.0, 160.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 14.0, 0.0, 0.0),
                     child: Text(
                       "İşlem Raporu",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                  Spacer(),
                   Padding(
-                      padding: EdgeInsets.fromLTRB(25.0, 14.0, 0.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(25.0, 14.0, 25.0, 0.0),
                       child: IconButton(
+                        iconSize: 30,
                         onPressed: () {
                           Navigator.pushReplacement(
                             //Navigator.push(
@@ -74,15 +76,17 @@ class _reportingState extends State<reporting> {
               Row(
                 children: [
                   Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 14.0, 27.0, 0.0),
+                    padding: EdgeInsets.fromLTRB(25.0, 14.0, 0.0, 0.0),
                     child: Text(
                       "Aylık Tapu işlem Adetleri- Önceki Yıl",
                       style: TextStyle(fontSize: 16),
                     ),
                   ),
+                  Spacer(),
                   Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 14.0, 0.0, 0.0),
+                      padding: EdgeInsets.fromLTRB(0.0, 14.0, 25.0, 0.0),
                       child: IconButton(
+                        iconSize: 30,
                         onPressed: () {
                           Navigator.pushReplacement(
                             //Navigator.push(

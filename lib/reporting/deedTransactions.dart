@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import '../utilities/constant.dart';
+import 'package:fu_mobile/entity/GetCountOfLastYearFromTapuDairesi.dart';
+import 'package:fu_mobile/services/GetCountOfLastYearFromTapuDairesiService.dart';
 
 // ignore: camel_case_types
 class deedTransactions extends StatefulWidget {
@@ -12,8 +14,62 @@ class deedTransactions extends StatefulWidget {
 
 // ignore: camel_case_types
 class _deedTransactionsState extends State<deedTransactions> {
-  var bankalar = ["Akbank", "garanti", "ziraat", "ptt", "Qnb"];
-  var subeAdi = ["ankara", "karşıyaka", "istanbul", "üsküdar", "maltepe"];
+  Widget tableRow(bankaAdi, subeAdi, islemAdedi, index) => Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * 1.05 / 3 - 1,
+            height: 30,
+            color: index % 2 != 0
+                ? Color.fromRGBO(137, 113, 1, 0.40)
+                : Colors.white,
+            child: Center(
+                child: Text(
+              bankaAdi,
+              style: TextStyle(color: Colors.black, fontFamily: 'Inter'),
+            )),
+          ),
+          SizedBox(
+            width: 1,
+            child: Container(color: gryColor),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.9 / 3 - 1,
+            height: 30,
+            color: index % 2 != 0
+                ? Color.fromRGBO(137, 113, 1, 0.40)
+                : Colors.white,
+            child: Center(
+                child: Text(
+              subeAdi,
+              style: TextStyle(color: Colors.black, fontFamily: 'Inter'),
+            )),
+          ),
+          SizedBox(
+            width: 1,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * 0.6 / 3,
+            height: 30,
+            color: index % 2 != 0
+                ? Color.fromRGBO(137, 113, 1, 0.40)
+                : Colors.white,
+            child: Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                Text(
+                  islemAdedi,
+                  style: TextStyle(color: Colors.black, fontFamily: 'Inter'),
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            )),
+          ),
+        ],
+      );
+
   var islemAdedi = [1, 2, 3, 4, 5];
   final List<String> entries = <String>['A', 'B', 'C'];
   final List<int> colorCodes = <int>[600, 500, 100];
@@ -45,230 +101,101 @@ class _deedTransactionsState extends State<deedTransactions> {
         body: Container(
           color: bgColor,
           child: Center(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(0.0, 25.0, 0.0, 0.0),
-                  child: SizedBox(
-                    width: 330,
-                    child: Table(
-                      border: TableBorder.all(color: bgColor),
-                      children: [
-                        TableRow(
-                          children: <Widget>[
-                            Container(
-                              height: 50,
-                              color: primaryBrand,
-                              child: Center(
-                                  child: Text(
-                                "Banka Adı",
-                                textAlign: TextAlign.center,
-                              )),
+            child: Container(
+              height: MediaQuery.of(context).size.height * 0.8,
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: Column(
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * 1.05 / 3 - 1,
+                        height: 50,
+                        color: primaryBrand,
+                        child: Center(
+                            child: Text(
+                          'Banka Adı',
+                          style: TextStyle(
+                              color: Colors.white, fontFamily: 'Inter'),
+                        )),
+                      ),
+                      SizedBox(
+                        width: 1,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.9 / 3 - 1,
+                        height: 50,
+                        color: primaryBrand,
+                        child: Center(
+                            child: Text(
+                          'Şube Adı',
+                          style: TextStyle(
+                              color: Colors.white, fontFamily: 'Inter'),
+                        )),
+                      ),
+                      SizedBox(
+                        width: 1,
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.6 / 3,
+                        height: 50,
+                        color: primaryBrand,
+                        child: Center(
+                            child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          // ignore: prefer_const_literals_to_create_immutables
+                          children: [
+                            Text(
+                              'İşlem Adedi',
+                              style: TextStyle(
+                                  color: Colors.white, fontFamily: 'Inter'),
+                              textAlign: TextAlign.center,
                             ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.top,
-                              child: Container(
-                                height: 50,
-                                width: 32,
-                                color: primaryBrand,
-                                child: Center(
-                                    child: Text(
-                                  "Şube Adı",
-                                  textAlign: TextAlign.center,
-                                )),
+                            Flexible(
+                              child: Text(
+                                '(Geçen Yıl Aynı Ay)',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'Inter',
+                                    fontSize: 11),
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                            Container(
-                              height: 50,
-                              color: primaryBrand,
-                              child: Center(
-                                  child: Text(
-                                "İşlem Adedi\n(Geçen yıl aynı ay)",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
                           ],
-                        ),
-                        TableRow(
-                          children: <Widget>[
-                            Container(
-                              height: 30,
-                              color: headColor,
-                              child: Center(
-                                  child: Text(
-                                "Ziraat",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.top,
-                              child: Container(
-                                height: 30,
-                                width: 32,
-                                color: headColor,
-                                child: Center(
-                                    child: Text(
-                                  "Üsküdar",
-                                  textAlign: TextAlign.center,
-                                )),
-                              ),
-                            ),
-                            Container(
-                              height: 30,
-                              color: headColor,
-                              child: Center(
-                                  child: Text(
-                                "3",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                          ],
-                        ),
-                        TableRow(
-                          children: <Widget>[
-                            Container(
-                              height: 30,
-                              color: primaryBrand,
-                              child: Center(
-                                  child: Text(
-                                "Ziraat",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.top,
-                              child: Container(
-                                height: 30,
-                                width: 32,
-                                color: primaryBrand,
-                                child: Center(
-                                    child: Text(
-                                  "Üsküdar",
-                                  textAlign: TextAlign.center,
-                                )),
-                              ),
-                            ),
-                            Container(
-                              height: 30,
-                              color: primaryBrand,
-                              child: Center(
-                                  child: Text(
-                                "3",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                          ],
-                        ),
-                        TableRow(
-                          children: <Widget>[
-                            Container(
-                              height: 30,
-                              color: headColor,
-                              child: Center(
-                                  child: Text(
-                                "Ziraat",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.top,
-                              child: Container(
-                                height: 30,
-                                width: 32,
-                                color: headColor,
-                                child: Center(
-                                    child: Text(
-                                  "Üsküdar",
-                                  textAlign: TextAlign.center,
-                                )),
-                              ),
-                            ),
-                            Container(
-                              height: 30,
-                              color: headColor,
-                              child: Center(
-                                  child: Text(
-                                "3",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                          ],
-                        ),
-                        TableRow(
-                          children: <Widget>[
-                            Container(
-                              height: 30,
-                              color: primaryBrand,
-                              child: Center(
-                                  child: Text(
-                                "Ziraat",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.top,
-                              child: Container(
-                                height: 30,
-                                width: 32,
-                                color: primaryBrand,
-                                child: Center(
-                                    child: Text(
-                                  "Üsküdar",
-                                  textAlign: TextAlign.center,
-                                )),
-                              ),
-                            ),
-                            Container(
-                              height: 30,
-                              color: primaryBrand,
-                              child: Center(
-                                  child: Text(
-                                "3",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                          ],
-                        ),
-                        TableRow(
-                          children: <Widget>[
-                            Container(
-                              height: 30,
-                              color: headColor,
-                              child: Center(
-                                  child: Text(
-                                "Ziraat",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                            TableCell(
-                              verticalAlignment: TableCellVerticalAlignment.top,
-                              child: Container(
-                                height: 30,
-                                width: 32,
-                                color: headColor,
-                                child: Center(
-                                    child: Text(
-                                  "Üsküdar",
-                                  textAlign: TextAlign.center,
-                                )),
-                              ),
-                            ),
-                            Container(
-                              height: 30,
-                              color: headColor,
-                              child: Center(
-                                  child: Text(
-                                "3",
-                                textAlign: TextAlign.center,
-                              )),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                        )),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  FutureBuilder<List<Log>>(
+                    future: getCountOfLastYearFromTapuDairesi('A8B4084027'),
+                    builder: ((context, snapshot) {
+                      if (snapshot.hasData) {
+                        print("aaaaaaaaaaa ${snapshot.data![0].Adet}");
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: MediaQuery.of(context).size.height * 0.7,
+                          child: ListView.builder(
+                            itemCount: snapshot.data!.length,
+                            itemBuilder: (context, index) {
+                              List<Log> data = snapshot.data!;
+                              print(
+                                  "aaaaaaaaZZZ ${data[index].New_BankaIdName}");
+
+                              return tableRow(
+                                  data[index].New_anabankaidName,
+                                  data[index].New_BankaIdName,
+                                  data[index].Adet,
+                                  index);
+                            },
+                          ),
+                        );
+                      } else
+                        return Container();
+                    }),
+                  )
+                ],
+              ),
             ),
           ),
         ));

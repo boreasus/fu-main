@@ -23,10 +23,12 @@ class _LoginValidationState extends State<LoginValidation> {
   final sms = TextEditingController();
   int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
   late Timer _timer;
-  int _start = 10;
+  int _start = 60;
   late String imei;
   bool isOver60Sec = false;
   late String session;
+  int second = 1;
+
   @override
   void initState() {
     super.initState();
@@ -38,7 +40,7 @@ class _LoginValidationState extends State<LoginValidation> {
   }
 
   void startTimer() {
-    const oneSec = const Duration(seconds: 1);
+    const oneSec = Duration(seconds: 1);
     // ignore: unnecessary_new
     _timer = new Timer.periodic(
       oneSec,
@@ -46,7 +48,7 @@ class _LoginValidationState extends State<LoginValidation> {
         if (_start == 0) {
           setState(() {
             timer.cancel();
-            isOver60Sec = true;
+            isOver60Sec = false;
           });
         } else {
           setState(() {
@@ -65,6 +67,7 @@ class _LoginValidationState extends State<LoginValidation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
           backgroundColor: headColor,
           //LEADİNG
@@ -149,35 +152,33 @@ class _LoginValidationState extends State<LoginValidation> {
 
       //BODY
       backgroundColor: bgColor,
-      body: SingleChildScrollView(
-        child: Container(
-          height: 650,
-          padding: EdgeInsets.all(12),
-          child: Stack(
-            fit: StackFit.expand,
-            children: [
-              Align(
-                alignment: Alignment(0.0, -0.9),
-                child: buildScreenText(),
-              ),
-              Align(
-                alignment: Alignment(0.0, -0.6),
-                child: buildScreenDesc(),
-              ),
-              Align(
-                alignment: Alignment(0.0, -0.1),
-                child: buildScreenMessage(),
-              ),
-              Align(
-                alignment: Alignment(0.0, 0.15),
-                child: buildScreenButton(),
-              ),
-              Align(
-                alignment: Alignment(0.0, 0.32),
-                child: buildScreenReMessage(),
-              ),
-            ],
-          ),
+      body: Container(
+        height: MediaQuery.of(context).size.height * 0.9,
+        padding: EdgeInsets.all(12),
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            Align(
+              alignment: Alignment(0.0, -0.9),
+              child: buildScreenText(),
+            ),
+            Align(
+              alignment: Alignment(0.0, -0.6),
+              child: buildScreenDesc(),
+            ),
+            Align(
+              alignment: Alignment(0.0, -0.1),
+              child: buildScreenMessage(),
+            ),
+            Align(
+              alignment: Alignment(0.0, 0.15),
+              child: buildScreenButton(),
+            ),
+            Align(
+              alignment: Alignment(0.0, 0.32),
+              child: buildScreenReMessage(),
+            ),
+          ],
         ),
       ),
     );
@@ -228,7 +229,7 @@ class _LoginValidationState extends State<LoginValidation> {
       );
 
   Widget buildScreenMessage() => SizedBox(
-        width: 300,
+        width: MediaQuery.of(context).size.width / 1.4 + 7,
         child: DecoratedBox(
           decoration: BoxDecoration(
             color: bgColor,
@@ -250,7 +251,7 @@ class _LoginValidationState extends State<LoginValidation> {
       );
 
   Widget buildScreenButton() => SizedBox(
-        width: 300,
+        width: MediaQuery.of(context).size.width / 1.4 + 7,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             primary: primaryBrand,
@@ -303,7 +304,7 @@ class _LoginValidationState extends State<LoginValidation> {
       );
 
   Widget buildScreenReMessage() => SizedBox(
-        width: 300,
+        width: MediaQuery.of(context).size.width / 1.4 + 7,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             side: isOver60Sec == true
@@ -313,10 +314,18 @@ class _LoginValidationState extends State<LoginValidation> {
             minimumSize: const Size.fromHeight(50),
             elevation: isOver60Sec == false ? 0 : 2,
           ),
-          onPressed: isOver60Sec != false
+          onPressed: _start == 0
               ? () async {
+                  if (_start == 0) {
+                    _start = 60;
+                    isOver60Sec = false;
+                    startTimer();
+                  }
+
+                  print("aaaa");
                   this.imei = await getImeipref();
-                  var result = await checkSmsMobileService("aa");
+                  var result = await checkSmsMobileService("A8B4084027");
+                  print(result);
                   if (result[0] == "<Result>NOK<Result>") {
                     showDialog(
                         context: context,

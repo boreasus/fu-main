@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
 import 'package:fu_mobile/deals/pendingDeals.dart';
@@ -27,22 +27,54 @@ class _agreementsMadeState extends State<agreementsMade> {
 
   @override
   void initState() {
-    AgreementDealClient("A8B4084027").then((value) => {
-          id = value.id,
-          donem = value.donem,
-          islem = value.islem,
-          brut = value.brut,
-          stopaj = value.stopaj,
-          kdv = value.kdv,
-          netkazanc = value.netkazanc,
-          mutabakat = value.mutabakat,
-        });
+    AgreementDealClient("A8B4084027").then((value) {
+      id = value.id;
+      donem = value.donem;
+      islem = value.islem;
+      brut = value.brut;
+      stopaj = value.stopaj;
+      kdv = value.kdv;
+      netkazanc = value.netkazanc;
+      mutabakat = value.mutabakat;
+    });
     super.initState();
   }
+
+  Widget bottomMenu() => Container(
+        width: MediaQuery.of(context).size.width,
+        height: 100,
+        color: headColor,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(20.0),
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.74,
+                height: 52,
+                child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: primaryBrand,
+                    ),
+                    onPressed: () {
+                      showAlertDialogTrue(context, "", donem, islem, brut,
+                          stopaj, kdv, netkazanc, netkazanc);
+                    },
+                    child: Center(
+                        child: Text(
+                      "Mutabakat Uygunluğu Bildir",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 17),
+                    ))),
+              ),
+            ),
+          ],
+        ),
+      );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomSheet: bottomMenu(),
         appBar: AppBar(
           toolbarHeight: 80,
           leading: IconButton(
@@ -69,234 +101,315 @@ class _agreementsMadeState extends State<agreementsMade> {
                 ? Container(
                     color: bgColor,
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 25.0, 0, 0),
-                      child: Column(
-                        children: [
+                        padding: EdgeInsets.fromLTRB(0.0, 10.0, 0, 0),
+                        child: Column(children: [
                           Container(
-                            width: 500,
-                            height: 300,
-                            decoration: BoxDecoration(color: headColor),
-                            child: Center(
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            30.0, 20.0, 0.0, 0.0),
-                                        child: Text(
-                                          "Dönem",
-                                          style: TextStyle(fontSize: 16),
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height * 0.43,
+                              decoration: BoxDecoration(color: headColor),
+                              child: Center(
+                                child: Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 0.0),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                2,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.41,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.fromLTRB(
+                                                      27.0, 16, 0, 0),
+                                              child: Text(
+                                                "Dönem",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              // ignore: sort_child_properties_last
+                                              child: Container(
+                                                  color: Colors.grey[300]),
+                                              height: 1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 27.0),
+                                              child: Text(
+                                                "İşlem Sayısı",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              // ignore: sort_child_properties_last
+                                              child: Container(
+                                                  color: Colors.grey[300]),
+                                              height: 1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 27.0),
+                                              child: Text(
+                                                "Brüt Tutar",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              // ignore: sort_child_properties_last
+                                              child: Container(
+                                                  color: Colors.grey[300]),
+                                              height: 1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 27.0),
+                                              child: Text(
+                                                "Stopaj",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              // ignore: sort_child_properties_last
+                                              child: Container(
+                                                  color: Colors.grey[300]),
+                                              height: 1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 27.0),
+                                              child: Text(
+                                                "KDV",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              // ignore: sort_child_properties_last
+                                              child: Container(
+                                                  color: Colors.grey[300]),
+                                              height: 1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 27.0),
+                                              child: Text(
+                                                "Net Kazanç",
+                                                style: TextStyle(fontSize: 14),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              // ignore: sort_child_properties_last
+                                              child: Container(
+                                                  color: Colors.grey[300]),
+                                              height: 1,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.5,
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 27.0),
+                                              child: Text(
+                                                "Toplam Alacak",
+                                                style: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              child: Container(
+                                                  color: Colors.white),
+                                              height: 0,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .height /
+                                                  2,
+                                            )
+                                          ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            130.0, 20.0, 0.0, 0.0),
-                                        child: Text(
-                                          snapshot.data!.donem,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 360,
-                                      height: 1,
-                                      color: primaryGray,
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            30.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          "İşlem Sayısı",
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            100.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          snapshot.data!.islem,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 360,
-                                      height: 1,
-                                      color: primaryGray,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            30.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          "Brüt Tutar",
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            110.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          snapshot.data!.brut,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 360,
-                                      height: 1,
-                                      color: primaryGray,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            30.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          "Stopaj",
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            140.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          snapshot.data!.stopaj,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 360,
-                                      height: 1,
-                                      color: primaryGray,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            30.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          "KDV",
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            155.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          snapshot.data!.kdv,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 360,
-                                      height: 1,
-                                      color: primaryGray,
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            30.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          "Toplam Alacak",
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              fontWeight: FontWeight.bold),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.fromLTRB(
-                                            80.0, 10.0, 0.0, 0.0),
-                                        child: Text(
-                                          snapshot.data!.netkazanc,
-                                          style: TextStyle(fontSize: 16),
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.fromLTRB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: 360,
-                                      height: 1,
-                                      color: primaryGray,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Spacer(),
-                          Container(
-                            width: 600,
-                            height: 100,
-                            color: headColor,
-                            child: Column(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.all(20.0),
-                                  child: SizedBox(
-                                    width: 290,
-                                    height: 52,
-                                    child: ElevatedButton(
-                                        style: ElevatedButton.styleFrom(
-                                          primary: primaryBrand,
-                                        ),
-                                        onPressed: () {
-                                          showAlertDialogTrue(context, "");
-                                        },
-                                        child: Center(
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 2,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.41,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                27.0, 16, 0, 0),
                                             child: Text(
-                                          "Mutabakat Uygunluğu Bildir",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(fontSize: 17),
-                                        ))),
-                                  ),
+                                              snapshot.data!.donem,
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            // ignore: sort_child_properties_last
+                                            child: Container(
+                                                color: Colors.grey[300]),
+                                            height: 1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 27.0),
+                                            child: Text(
+                                              snapshot.data!.islem,
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            // ignore: sort_child_properties_last
+                                            child: Container(
+                                                color: Colors.grey[300]),
+                                            height: 1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 27.0),
+                                            child: Text(
+                                              snapshot.data!.brut,
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            // ignore: sort_child_properties_last
+                                            child: Container(
+                                                color: Colors.grey[300]),
+                                            height: 1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 27.0),
+                                            child: Text(
+                                              snapshot.data!.stopaj,
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            // ignore: sort_child_properties_last
+                                            child: Container(
+                                                color: Colors.grey[300]),
+                                            height: 1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 27.0),
+                                            child: Text(
+                                              snapshot.data!.kdv,
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            // ignore: sort_child_properties_last
+                                            child: Container(
+                                                color: Colors.grey[300]),
+                                            height: 1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 27.0),
+                                            child: Text(
+                                              snapshot.data!.netkazanc,
+                                              style: TextStyle(fontSize: 14),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            // ignore: sort_child_properties_last
+                                            child: Container(
+                                                color: Colors.grey[300]),
+                                            height: 1,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.5,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 27.0),
+                                            child: Text(
+                                              snapshot.data!.netkazanc,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.bold),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            child:
+                                                Container(color: Colors.white),
+                                            height: 0,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .height /
+                                                2,
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ))
+                              ))
+                        ])))
                 : Center(child: CircularProgressIndicator())));
   }
 }
 
-showAlertDialogTrue(BuildContext context, String text) {
+showAlertDialogTrue(BuildContext context, String text, donem, islem, brut,
+    stopaj, kdv, toplam, netkazanc) {
   // Create button
   Widget okButton = TextButton(
     child: Text(
@@ -306,7 +419,15 @@ showAlertDialogTrue(BuildContext context, String text) {
     onPressed: () {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => pendingDeals()),
+        MaterialPageRoute(
+            builder: (context) => pendingDeals(
+                donem: donem,
+                islemSayisi: islem,
+                brutTutar: brut,
+                stopaj: stopaj,
+                kdv: kdv,
+                toplamAlacak: toplam,
+                netKazanc: netkazanc)),
       );
     },
   );

@@ -7,6 +7,7 @@ import 'package:fu_mobile/screens/signup.dart';
 import 'package:fu_mobile/services/getImei.dart';
 import 'package:fu_mobile/transactions/mortgage.dart';
 import 'package:fu_mobile/transactions/transactionDetail.dart';
+import 'package:fu_mobile/visits/resultNotification.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

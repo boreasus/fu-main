@@ -1,20 +1,19 @@
 class Data {
   late List<Log> log;
+  late Log log2;
 
-  Data({required this.log});
+  Data({required this.log, required this.log2});
 
   Data.fromJson(Map<String, dynamic> json) {
-    log = <Log>[];
-    json['data'].forEach((v) {
-      log.add(new Log.fromJson(v));
-    });
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> variable = Map<String, dynamic>();
-    variable['data'] = this.log.map((v) => v.toJson()).toList();
-
-    return variable;
+    try {
+      log = <Log>[];
+      json['data'].forEach((v) {
+        log.add(new Log.fromJson(v));
+      });
+    } catch (e) {
+      print("e");
+      log2 = Log.fromJson(json['data']);
+    }
   }
 }
 
@@ -30,6 +29,7 @@ class Log {
 
   Log.fromJson(Map<String, dynamic> json) {
     IslemTarih = json['IslemTarih'];
+    print("IslemTarih");
     IslemSaat = json['IslemSaat'];
     AnaBanka = json['AnaBanka'];
     Sube = json['Sube'];

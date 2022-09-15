@@ -22,13 +22,10 @@ class informationNoties extends StatefulWidget {
 
 // ignore: camel_case_types
 class _informationNotiesState extends State<informationNoties> {
+  String goBackValue = "Mesaj_Okundu";
   List<Log> list = [];
   @override
   void initState() {
-    print(widget.data[0].PushLogId);
-    print(widget.data[0].MessageStatus);
-    print(widget.data[0].Title);
-
     for (var i in widget.data) {
       if (i.Category == widget.category) {
         list.add(i);
@@ -111,12 +108,8 @@ class _informationNotiesState extends State<informationNoties> {
                     ),
                   ),
                   IconButton(
-                      onPressed: () {
-                        updateStatue(id, "5");
-                        setState(() {
-                          widget.data[index].MessageStatus = "Mesaj_Okundu";
-                        });
-                        Navigator.push(
+                      onPressed: () async {
+                        String result = await Navigator.push(
                             context,
                             MaterialPageRoute(
                                 builder: (context) => notificationDetail(
@@ -125,6 +118,25 @@ class _informationNotiesState extends State<informationNoties> {
                                       title: title,
                                       text: text,
                                     )));
+                        updateStatue(id, "5");
+                        setState(() {
+                          // widget.data[index].MessageStatus = "Mesaj_Okundu";
+                          list[index].MessageStatus = "Mesaj_Okundu";
+                          print(" index budur: $index");
+                          list[index].MessageStatus = result;
+                          // String? result = await Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //         builder: (context) => notificationDetail(
+                          //               id: id,
+                          //               date: date,
+                          //               title: title,
+                          //               text: text,
+                          //             )));
+                          // list[index].MessageStatus = result ?? "Mesaj_Okundu";
+                          print(index);
+                          print("aaa >> ${widget.data[index].MessageStatus}");
+                        });
                       },
                       icon: Icon(
                         Icons.keyboard_arrow_right,
@@ -153,8 +165,8 @@ class _informationNotiesState extends State<informationNoties> {
           },
         ),
         backgroundColor: headColor,
-        title: Text("Bilgilendirme Bildirimleri",
-            style: TextStyle(color: primaryBrand)),
+        title:
+            Text("${widget.category}", style: TextStyle(color: primaryBrand)),
       ),
       body: Container(
         decoration: BoxDecoration(color: bgColor),
