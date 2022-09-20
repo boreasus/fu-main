@@ -24,9 +24,10 @@ class _agreementsMadeState extends State<agreementsMade> {
   String? kdv;
   String? netkazanc;
   String? mutabakat;
-
+  late Future<Data> _future;
   @override
   void initState() {
+    _future = AgreementDealClient("A8B4084027");
     AgreementDealClient("A8B4084027").then((value) {
       id = value.id;
       donem = value.donem;
@@ -56,7 +57,7 @@ class _agreementsMadeState extends State<agreementsMade> {
                       primary: primaryBrand,
                     ),
                     onPressed: () {
-                      showAlertDialogTrue(context, "", donem, islem, brut,
+                      showAlertDialogTrue(context, id, "", donem, islem, brut,
                           stopaj, kdv, netkazanc, netkazanc);
                     },
                     child: Center(
@@ -98,7 +99,7 @@ class _agreementsMadeState extends State<agreementsMade> {
           ),
         ),
         body: FutureBuilder<Data>(
-            future: AgreementDealClient("A8B4084027"),
+            future: _future,
             builder: (context, snapshot) => snapshot.hasData
                 ? Container(
                     color: bgColor,
@@ -410,7 +411,7 @@ class _agreementsMadeState extends State<agreementsMade> {
   }
 }
 
-showAlertDialogTrue(BuildContext context, String text, donem, islem, brut,
+showAlertDialogTrue(BuildContext context, id, String text, donem, islem, brut,
     stopaj, kdv, toplam, netkazanc) {
   // Create button
   Widget okButton = TextButton(
@@ -423,6 +424,7 @@ showAlertDialogTrue(BuildContext context, String text, donem, islem, brut,
         context,
         MaterialPageRoute(
             builder: (context) => pendingDeals(
+                id: id,
                 donem: donem,
                 islemSayisi: islem,
                 brutTutar: brut,

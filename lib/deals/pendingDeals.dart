@@ -3,6 +3,10 @@ import 'dart:io';
 import 'dart:async';
 import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
+
+import 'package:fu_mobile/services/InsertMakbuzService.dart';
+import 'package:fu_mobile/entity/InsertMakbuz.dart';
+
 import 'package:intl/intl.dart';
 import 'dart:developer' as dev;
 import 'dart:io' as Io;
@@ -20,8 +24,10 @@ class pendingDeals extends StatefulWidget {
   final String kdv;
   final String netKazanc;
   final String toplamAlacak;
+  final String id;
   const pendingDeals(
       {Key? key,
+      required this.id,
       required this.donem,
       required this.islemSayisi,
       required this.brutTutar,
@@ -38,9 +44,12 @@ class pendingDeals extends StatefulWidget {
 // ignore: camel_case_types
 class _pendingDealsState extends State<pendingDeals> {
   TextEditingController dateinput = TextEditingController();
+  TextEditingController makbuzController = TextEditingController();
+  String base64Encode(List<int> bytes) => base64.encode(bytes);
 
   File? image;
   var photoArray = [];
+  late String byteEncoded;
   Future<void> getImage() async {
     String? imagePath;
     try {
@@ -51,8 +60,8 @@ class _pendingDealsState extends State<pendingDeals> {
       // String base64Image = base64Encode(bytes);
       // debugPrint("base64image'imiz3: " + base64Image, wrapWidth: 20000);
       final bytes = await Io.File(imagePath!).readAsBytes();
-      dev.log(base64Encode(bytes) + "***", name: 'log');
-
+      byteEncoded = base64Encode(bytes);
+      print(byteEncoded);
       print("//aaaaaa/");
     } on PlatformException catch (e) {
       imagePath = e.toString();
@@ -73,9 +82,7 @@ class _pendingDealsState extends State<pendingDeals> {
       // String base64Image = base64Encode(bytes);
       // debugPrint("base64image'imiz3: " + base64Image, wrapWidth: 20000);
       final bytes = await Io.File(imagePath!).readAsBytes();
-      dev.log(base64Encode(bytes) + "***", name: 'log');
-
-      print("//aaaaaa/");
+      byteEncoded = base64Url.encode(bytes);
     } on PlatformException catch (e) {
       imagePath = e.toString();
     }
@@ -96,6 +103,9 @@ class _pendingDealsState extends State<pendingDeals> {
         photoArray.add((pickedFile.path));
       });
     }
+    final bytes = await Io.File(pickedFile!.path).readAsBytes();
+    byteEncoded = base64.encode(bytes);
+    byteEncoded = Uri.encodeComponent(byteEncoded);
   }
 
   Padding photoCard(context, photoUrl, index) {
@@ -205,7 +215,8 @@ class _pendingDealsState extends State<pendingDeals> {
                       primary: primaryBrand,
                     ),
                     onPressed: () {
-                      showAlertDialogTrue(context);
+                      showAlertDialogTrue(context, widget.id,
+                          makbuzController.text, dateinput.text, byteEncoded);
                     },
                     child: Center(
                         child: Text(
@@ -549,6 +560,7 @@ class _pendingDealsState extends State<pendingDeals> {
                     width: MediaQuery.of(context).size.width - 70,
                     height: 30,
                     child: TextField(
+                      controller: makbuzController,
                       decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Makbuz No Giriniz",
@@ -675,18 +687,28 @@ class _pendingDealsState extends State<pendingDeals> {
   }
 }
 
-showAlertDialogTrue(BuildContext context) {
+showAlertDialogTrue(BuildContext context, pGuidMutabakatId, pStrMakbuzNo,
+    pDateMakbuzTarihi, pStrBase64AttachmentBody) {
   // Create button
   Widget okButton = TextButton(
-    child: Text(
-      "Tamam",
-      style: TextStyle(fontSize: 18, color: okColor),
-    ),
-    onPressed: () {
-      Navigator.of(context).pop();
-    },
-  );
+      child: Text(
+        "Tamam",
+        style: TextStyle(fontSize: 18, color: okColor),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+      });
 
+  Widget okButtonWithBackPress() => TextButton(
+      child: Text(
+        "Tamam",
+        style: TextStyle(fontSize: 18, color: okColor),
+      ),
+      onPressed: () {
+        Navigator.pop(context);
+        Navigator.pop(context);
+        Navigator.pop(context);
+      });
   // Create AlertDialog
   AlertDialog alert = AlertDialog(
     actionsAlignment: MainAxisAlignment.center,
@@ -706,17 +728,73 @@ showAlertDialogTrue(BuildContext context) {
             height: 0.5,
             color: Colors.black26,
           ),
+          okButtonWithBackPress(),
+        ],
+      )
+    ],
+  );
+
+  AlertDialog alertFail = AlertDialog(
+    actionsAlignment: MainAxisAlignment.center,
+    content: Padding(
+      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+      child: Text(
+        "Makbuz Gönderilmedi.",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 14),
+      ),
+    ),
+    actions: [
+      Column(
+        children: [
+          Container(
+            width: 500,
+            height: 0.5,
+            color: Colors.black26,
+          ),
           okButton,
         ],
       )
     ],
   );
 
+  AlertDialog alertLoading = AlertDialog(
+    actionsAlignment: MainAxisAlignment.center,
+    content: Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                const Text('Makbuz yükleniyor.')
+              ],
+            )
+          ],
+        )),
+  );
+
+//getOffDaysFromUser("A8B4084027", "true", startDate.text, endDate.text);
   // show the dialog
   showDialog(
     context: context,
     builder: (BuildContext context) {
-      return alert;
+      return FutureBuilder<String>(
+          future: insertMakbuz(pGuidMutabakatId, pStrMakbuzNo,
+              pDateMakbuzTarihi, pStrBase64AttachmentBody),
+          builder: ((context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                return alert;
+              } else
+                return alertFail;
+            } else {
+              return alertLoading;
+            }
+          }));
     },
   );
 }
