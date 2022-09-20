@@ -1,11 +1,16 @@
 class Data {
   late List<Log> log;
+  late Log log2;
 
   Data.fromJson(Map<String, dynamic> json) {
-    log = <Log>[];
-    json['data'].forEach((v) {
-      log.add(Log.fromJson(v));
-    });
+    try {
+      log = <Log>[];
+      json['data'].forEach((v) {
+        log.add(Log.fromJson(v));
+      });
+    } catch (e) {
+      log2 = Log.fromJson(json['data']);
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -24,6 +29,7 @@ class Log {
   late String CreatedOn;
   late String New_IsinTipi;
   late String VeriKullanimIzni;
+  late String Category;
 
   Log(
       {required this.Ad,
@@ -42,6 +48,7 @@ class Log {
     CreatedOn = json['CreatedOn'];
     New_IsinTipi = json['New_IsinTipi'];
     VeriKullanimIzni = json['VeriKullanimIzni'];
+    Category = json['Category'];
   }
 
   Map<String, dynamic> toJson() {

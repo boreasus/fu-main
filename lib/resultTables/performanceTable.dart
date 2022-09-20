@@ -50,19 +50,24 @@ class _performanceTableState extends State<performanceTable> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 80,
-          leadingWidth: 110,
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
+            icon: Padding(
+              padding: const EdgeInsets.only(left: 30.0),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
             ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           backgroundColor: headColor,
-          title:
-              Text("Performans Tablosu", style: TextStyle(color: primaryBrand)),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: Text("Performans Tablosu",
+                style: TextStyle(color: primaryBrand)),
+          ),
         ),
         body: FutureBuilder<List<Datas>>(
           future: GetPerformanceTableClient("A8B4084027"),

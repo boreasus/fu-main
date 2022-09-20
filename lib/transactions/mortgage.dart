@@ -169,7 +169,7 @@ class _MortgageState extends State<Mortgage> {
             Padding(
               padding: EdgeInsets.fromLTRB(0.0, 15, 0, 0),
               child: SizedBox(
-                width: 290,
+                width: MediaQuery.of(context).size.width - 90,
                 height: 50,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -186,7 +186,7 @@ class _MortgageState extends State<Mortgage> {
             Padding(
               padding: EdgeInsets.all(20.0),
               child: SizedBox(
-                width: 290,
+                width: MediaQuery.of(context).size.width - 90,
                 height: 52,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -205,13 +205,10 @@ class _MortgageState extends State<Mortgage> {
                               height: 20,
                               child: Icon(Icons.photo_camera)),
                         ),
-                        SizedBox(
-                            width: 124,
-                            height: 24,
-                            child: Text(
-                              "Fotoğraf Ekle",
-                              style: TextStyle(fontSize: 20),
-                            )),
+                        Text(
+                          "Fotoğraf Ekle",
+                          style: TextStyle(fontSize: 20),
+                        ),
                       ],
                     )),
               ),
@@ -226,15 +223,17 @@ class _MortgageState extends State<Mortgage> {
       bottomSheet: bottom(context),
       appBar: AppBar(
         toolbarHeight: 80,
-        leadingWidth: 110,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
         backgroundColor: headColor,
         title: Padding(

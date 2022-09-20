@@ -19,18 +19,23 @@ class _reportingState extends State<reporting> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        leadingWidth: 110,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
         backgroundColor: headColor,
-        title: Text("Raporlama", style: TextStyle(color: primaryBrand)),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: Text("Raporlama", style: TextStyle(color: primaryBrand)),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -54,12 +59,16 @@ class _reportingState extends State<reporting> {
                       child: IconButton(
                         iconSize: 30,
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            //Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => transactionReport()),
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => transactionReport()));
+                          // Navigator.pushReplacement(
+                          //   //Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => transactionReport()),
+                          // );
                         },
                         icon: Icon(Icons.keyboard_arrow_right),
                       )),
@@ -68,7 +77,7 @@ class _reportingState extends State<reporting> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
                 child: Container(
-                  width: 350,
+                  width: MediaQuery.of(context).size.width - 48,
                   height: 1,
                   color: primaryGray,
                 ),
@@ -88,12 +97,16 @@ class _reportingState extends State<reporting> {
                       child: IconButton(
                         iconSize: 30,
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            //Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => deedTransactions()),
-                          );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => deedTransactions()));
+                          // Navigator.pushReplacement(
+                          //   //Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => deedTransactions()),
+                          // );
                         },
                         icon: Icon(Icons.keyboard_arrow_right),
                       ))

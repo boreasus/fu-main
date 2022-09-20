@@ -81,18 +81,21 @@ class _deedTransactionsState extends State<deedTransactions> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 80,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
           backgroundColor: headColor,
           title: Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
             child: Text("Aylık Tapu İşlem Adetleri\nÖnceki Yıl",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: primaryBrand)),

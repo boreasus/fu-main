@@ -5,6 +5,7 @@ import 'package:fu_mobile/notifications/notifications.dart';
 import 'package:fu_mobile/permission/myPermissions.dart';
 import 'package:fu_mobile/pleceholders/myAppointments.dart';
 import 'package:fu_mobile/reporting/reporting.dart';
+import 'package:fu_mobile/services/getImei.dart';
 import 'package:fu_mobile/transactions/transactionDetail.dart';
 import 'package:fu_mobile/transactions/viewTransactions.dart';
 import 'package:fu_mobile/utilities/constant.dart';
@@ -21,43 +22,20 @@ class homePage extends StatefulWidget {
 // ignore: camel_case_types
 class _homePageState extends State<homePage> {
   @override
+  late String imeiLocal;
+  void initState() {
+    getImeipref().then((value) {
+      imeiLocal = value;
+      print("imei:  $imeiLocal");
+    });
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     // ignore: unused_local_variable
     var buttonWidth = MediaQuery.of(context).size.width * 0.8;
-    var padding2 = Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 10.0),
-      child: SizedBox(
-        width: 330,
-        height: 40,
-        child: ElevatedButton(
-            style: ElevatedButton.styleFrom(primary: headColor),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => reporting()),
-              );
-            },
-            child: Row(
-              children: const [
-                Icon(
-                  Icons.image_sharp,
-                  color: primaryBrand,
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(50.0, 0.0, 120.0, 0.0),
-                  child: Text(
-                    "Raporlama",
-                    style: TextStyle(fontSize: 16, color: Colors.black),
-                  ),
-                ),
-                Text(
-                  "12",
-                  style: TextStyle(color: primaryBrand, fontSize: 16),
-                )
-              ],
-            )),
-      ),
-    );
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       bottomSheet: Container(
@@ -66,7 +44,7 @@ class _homePageState extends State<homePage> {
       appBar: AppBar(
           backgroundColor: headColor,
           //LEADİNG
-          leadingWidth: 110,
+          leadingWidth: MediaQuery.of(context).size.width / 2,
           leading: Center(
             child: TextButton(
               child: Row(
@@ -150,8 +128,9 @@ class _homePageState extends State<homePage> {
           child: Column(
             children: [
               Padding(
-                padding: EdgeInsets.fromLTRB(110.0, 30.0, 0.0, 0.0),
+                padding: EdgeInsets.fromLTRB(0.0, 30.0, 0.0, 0.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: const [
                     Text(
                       "Sayın ",
@@ -165,7 +144,7 @@ class _homePageState extends State<homePage> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 5.0, 30.0, 0.0),
+                padding: EdgeInsets.fromLTRB(0.0, 5.0, 0.0, 0.0),
                 child: Text(
                   "Lütfen işleminizi seçiniz.",
                   style: TextStyle(color: primaryGray),
@@ -192,8 +171,9 @@ class _homePageState extends State<homePage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) =>
-                                            ViewTransactions()));
+                                        builder: (context) => ViewTransactions(
+                                              imei: "A8B4084027",
+                                            )));
                               },
                               child: Row(
                                 children: const [

@@ -227,9 +227,12 @@ class _pendingDealsState extends State<pendingDeals> {
       appBar: AppBar(
         toolbarHeight: 80,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+          icon: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
           ),
           onPressed: () {
             Navigator.pop(context);
@@ -238,11 +241,10 @@ class _pendingDealsState extends State<pendingDeals> {
         ),
         backgroundColor: headColor,
         title: Padding(
-          padding: EdgeInsets.fromLTRB(0.0, 0.0, 50.0, 0.0),
-          child: Center(
-              child: Text("Bekleyen Mutabakatlarım",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(color: primaryBrand))),
+          padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
+          child: Text("Bekleyen Mutabakatlarım",
+              textAlign: TextAlign.center,
+              style: TextStyle(color: primaryBrand)),
         ),
       ),
       body: SingleChildScrollView(

@@ -103,12 +103,19 @@ class _informationNotiesState extends State<informationNoties> {
                       child: Text(
                         title,
                         style: TextStyle(
-                            color: Colors.black54, fontWeight: FontWeight.w400),
+                            color: seen == "Mesaj_Okundu"
+                                ? primaryGray
+                                : Colors.black,
+                            fontWeight: seen == "Mesaj_Okundu"
+                                ? FontWeight.w400
+                                : FontWeight.w400),
                       ),
                     ),
                   ),
                   IconButton(
                       onPressed: () async {
+                        updateStatue(id, "5");
+
                         String result = await Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -118,7 +125,6 @@ class _informationNotiesState extends State<informationNoties> {
                                       title: title,
                                       text: text,
                                     )));
-                        updateStatue(id, "5");
                         setState(() {
                           // widget.data[index].MessageStatus = "Mesaj_Okundu";
                           list[index].MessageStatus = "Mesaj_Okundu";
@@ -154,24 +160,30 @@ class _informationNotiesState extends State<informationNoties> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        leadingWidth: 110,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: IconButton(
+            icon: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          onPressed: () {
-            Navigator.pop(context);
-          },
         ),
         backgroundColor: headColor,
-        title:
-            Text("${widget.category}", style: TextStyle(color: primaryBrand)),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child:
+              Text("${widget.category}", style: TextStyle(color: primaryBrand)),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(color: bgColor),
         child: Center(
           child: ListView.builder(
+            padding: EdgeInsets.only(bottom: 20),
             itemCount: list.length,
             itemBuilder: ((context, index) => card(
                 index,

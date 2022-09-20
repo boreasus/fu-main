@@ -31,18 +31,23 @@ class _notificationDetailState extends State<notificationDetail> {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 80,
-        leadingWidth: 110,
         leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
+          icon: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
           ),
           onPressed: () {
             Navigator.pop(context, backPressedDate);
           },
         ),
         backgroundColor: headColor,
-        title: Text("Bildirim Detayı", style: TextStyle(color: primaryBrand)),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: Text("Bildirim Detayı", style: TextStyle(color: primaryBrand)),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -68,15 +73,12 @@ class _notificationDetailState extends State<notificationDetail> {
                   TextButton(
                       onPressed: () async {
                         print(widget.id);
-                        await updateStatue(
-                            "${widget.id}", "4"); //burda hata var
+                        var result =
+                            await updateStatue(widget.id, "4"); //burda hata var
+                        print(result);
                         setState(() {
-                          readed = readed == "Okunmadı olarak işaretle"
-                              ? "Okundu olarak işaretlendi"
-                              : "Okunmadı olarak işaretle";
-                          backPressedDate = readed == "Okunmadı olarak işaretle"
-                              ? "Mesaj_Okundu"
-                              : "Mesaj_Okunmadı";
+                          readed = "Okunmadı olarak işaretlendi";
+                          backPressedDate = "Mesaj_Okunmadı";
                         });
                       },
                       child: Padding(

@@ -207,18 +207,23 @@ class _myAppointmentState extends State<myAppointment> {
         resizeToAvoidBottomInset: false,
         appBar: AppBar(
           toolbarHeight: 80,
-          leadingWidth: 110,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
           backgroundColor: headColor,
-          title: Text("Randevularım", style: TextStyle(color: primaryBrand)),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: Text("Randevularım", style: TextStyle(color: primaryBrand)),
+          ),
         ),
         bottomSheet: bottomButton(),
         // body: futureBody(foundDatas)

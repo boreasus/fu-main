@@ -8,5 +8,12 @@ Future<List<Datas>> GetPerformanceTableClient(String imei) async {
   var api =
       'http://10.0.2.2:3000/getPerformanceTable/api/fu_mobile/GetPerformansTablosu/$imei';
   var result = await Dio().get(api);
-  return ResultImeiStr.fromJson(result.data).countOfIstakib.donem.datas;
+  if ((ResultImeiStr.fromJson(result.data).countOfIstakib.donem.datas)
+      .isNotEmpty) {
+    return ResultImeiStr.fromJson(result.data).countOfIstakib.donem.datas;
+  } else {
+    List<Datas> datas = [];
+    datas.add(ResultImeiStr.fromJson(result.data).countOfIstakib.donem.datas2);
+    return datas;
+  }
 }

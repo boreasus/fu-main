@@ -9,6 +9,7 @@ import 'package:fu_mobile/services/getWorkFollowDetailXmlV2Service.dart';
 import 'package:fu_mobile/transactions/mortgage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:fu_mobile/entity/GetWorkFollowDetailXmlV2.dart';
+import 'package:intl/intl.dart';
 import '../utilities/constant.dart';
 
 // ignore: camel_case_types
@@ -23,41 +24,343 @@ class TransactionDetail extends StatefulWidget {
 
 // ignore: camel_case_types
 class _detailState extends State<TransactionDetail> {
-  List<Log2> appActions = [];
+  showAlertDialog(BuildContext context) {
+    Widget loadingContainer() => SizedBox(
+          width: 50,
+          height: 50,
+          child: Center(child: CircularProgressIndicator()),
+        );
+
+    Widget okButton(islem, index) => SizedBox(
+          child: Column(
+            children: [
+              Container(
+                width: 200,
+                height: index != 0 ? 1 : 0,
+                color: Colors.black26,
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
+                child: TextButton(
+                  child: Text(
+                    islem,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.black,
+                    ),
+                  ),
+                  onPressed: islem !=
+                          "İşleme atanan bankaya tanım yapılmamıştır."
+                      ? () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Mortgage()),
+                          );
+                        }
+                      : (() {
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        }),
+                ),
+              ),
+            ],
+          ),
+        );
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      actionsAlignment: MainAxisAlignment.center,
+      content: Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: FutureBuilder<List<Log2>>(
+              future: appActionsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  List<Log2> appActions = snapshot.data ?? [];
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: appActions.isEmpty ? 1 : appActions.length,
+                    itemBuilder: ((context, index) => appActions.length != 0
+                        ? okButton(appActions[index].Adi, index)
+                        : okButton("İşleme atanan bankaya tanım yapılmamıştır.",
+                            index)),
+                  );
+                } else {
+                  return loadingContainer();
+                }
+              },
+            )),
+      ),
+    );
+
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  TextEditingController a = TextEditingController();
+  TextEditingController b = TextEditingController();
+  TextEditingController c = TextEditingController();
+  TextEditingController d = TextEditingController();
+  TextEditingController e = TextEditingController();
+  TextEditingController f = TextEditingController();
+  TextEditingController g = TextEditingController();
+  TextEditingController h = TextEditingController();
+  TextEditingController i = TextEditingController();
+  TextEditingController j = TextEditingController();
+  TextEditingController k = TextEditingController();
+  TextEditingController l = TextEditingController();
+  TextEditingController m = TextEditingController();
+  TextEditingController n = TextEditingController();
+  TextEditingController p = TextEditingController();
+  TextEditingController r = TextEditingController();
+  TextEditingController s = TextEditingController();
+  TextEditingController t = TextEditingController();
+  TextEditingController u = TextEditingController();
+  TextEditingController v = TextEditingController();
+  TextEditingController y = TextEditingController();
+  TextEditingController x = TextEditingController();
+  TextEditingController z = TextEditingController();
+  TextEditingController aa = TextEditingController();
+  TextEditingController ab = TextEditingController();
+  TextEditingController ac = TextEditingController();
+  TextEditingController ad = TextEditingController();
+  TextEditingController ae = TextEditingController();
+  TextEditingController af = TextEditingController();
+  TextEditingController ag = TextEditingController();
+  TextEditingController ah = TextEditingController();
+  TextEditingController date = TextEditingController()
+    ..text = DateFormat('dd-MM-yyyy').format(DateTime.now());
+
+  bool appActionsLoaded = true;
   File? image;
   // ignore: unused_field
   String? _imagePath;
-  Future<void> getImage() async {
-    String? imagePath;
-    try {
-      imagePath = (await EdgeDetection.detectEdge);
-    } on PlatformException catch (e) {
-      imagePath = e.toString();
-    }
-    if (!mounted) return;
-    setState(() {
-      _imagePath = imagePath;
-    });
-  }
-
-  Future pickImageCamera() async {
-    try {
-      final image = await ImagePicker().pickImage(source: ImageSource.camera);
-      if (image == null) return;
-      final imageTemp = File(image.path);
-      setState(() => this.image = imageTemp);
-    } on PlatformException catch (e) {
-      // ignore: avoid_print
-      print("Failed to pick Image: $e");
-    }
-  }
-
+  late Future<Log> futuree;
+  late Future<List<Log2>> appActionsFuture;
   @override
   void initState() {
-    Get_Mobile_App_ActionsV2(widget.furefno).then(
-      (value) => appActions = value,
-    );
+    futuree =
+        getWorkFollowDetailXmlV2(widget.furefno.toUpperCase(), widget.num);
+    appActionsFuture = Get_Mobile_App_ActionsV2(widget.furefno);
     super.initState();
+  }
+
+  SingleChildScrollView futureBody(context, Log data, furefno) {
+    var boxSize = MediaQuery.of(context).size.width;
+    var boxPadding = EdgeInsets.only(left: 24);
+    var textPadding = EdgeInsets.fromLTRB(24.0, 10, 0.0, 0.0);
+
+    a.text = data.SartliUN;
+    b.text = data.Musteri;
+    c.text = data.Malik;
+    d.text = data.Il;
+    e.text = data.Ilce;
+    f.text = data.Mahalle;
+    g.text = data.Ada;
+    h.text = data.Parsel;
+    i.text = data.ArsaPayi;
+    j.text = data.KatNo;
+    k.text = data.BlokNo;
+    l.text = data.BagBol;
+    m.text = data.BagBolNit;
+    n.text = data.NitelikAcik;
+    p.text = data.HSBCEnAzSatisTutari;
+    r.text = data.IpotekBedeli;
+    s.text = data.IpotekPB;
+    t.text = data.Kredif;
+    u.text = data.IpotekD;
+    v.text = data.RandTarihi;
+    y.text = data.CepTel;
+    z.text = data.EnErkenIpotek;
+    aa.text = data.Sorumlu;
+    ab.text = data.Sorumlu0;
+    ac.text = data.Soruml1;
+    ad.text = data.Cek;
+    ae.text = data.RandSahibi;
+    af.text = data.BankaAciklamasi;
+    ag.text = data.SaticiAdi;
+    ah.text = data.KredifDegisken;
+    Widget textBlocks(textSecond, textFirst) {
+      if (textSecond.text == "..." || textSecond.text == "") {
+        return Container();
+      } else {
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(24.0, 16, 0.0, 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    textFirst,
+                    style: TextStyle(color: primaryGray),
+                  ),
+                  GestureDetector(
+                    onTap: (textFirst == "Randevu Tarihi"
+                        ? () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: context,
+                                initialDate: DateTime.now(),
+                                firstDate: DateTime(2022),
+                                lastDate: DateTime(2101));
+                            if (pickedDate != null) {
+                              String formattedDate =
+                                  DateFormat('dd-MM-yyyy').format(pickedDate);
+
+                              setState(() {
+                                date.text = formattedDate;
+                                textSecond = formattedDate;
+                                print(formattedDate);
+                              });
+                            }
+                          }
+                        : () {}),
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 24.0),
+                      child: Visibility(
+                        visible: textFirst == "Randevu Tarihi" ? true : false,
+                        child: Icon(
+                          Icons.date_range_outlined,
+                          color: primaryBrand,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+              child: TextField(
+                style: TextStyle(color: Color.fromARGB(255, 90, 90, 90)),
+                controller: textSecond,
+                maxLines: null,
+                minLines: 1,
+                decoration: InputDecoration(
+                  enabled: false,
+                  border: InputBorder.none,
+                  filled: true,
+                  fillColor: headColor,
+                  hintStyle: TextStyle(fontSize: 14),
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(width: 3, color: Colors.grey)),
+                ),
+              ),
+            ),
+          ],
+        );
+      }
+    }
+
+    return SingleChildScrollView(
+      child: Container(
+        decoration: BoxDecoration(color: bgColor),
+        child: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0, 16.0, 0, 0.0),
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(24, 0, 24, 0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width - 48,
+                      height: 32,
+                      // ignore: sort_child_properties_last
+                      child: Center(
+                          child: Text(
+                        "DEĞİŞTİRİLECEK",
+                        style: TextStyle(color: Colors.white, fontSize: 16),
+                      )),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
+                textBlocks(a, "Şartlu U.N"),
+                textBlocks(b, "Müşteri"),
+                textBlocks(c, "Malik"),
+                textBlocks(d, "İl"),
+                textBlocks(e, "İlçe"),
+                textBlocks(f, "Mahalle"),
+                textBlocks(g, "Ada"),
+                textBlocks(h, "Parsel"),
+                textBlocks(date, "Randevu Tarihi"),
+                textBlocks(i, "Cep Tel No"),
+                textBlocks(j, "Arsa Payı"),
+                textBlocks(k, "Kat No"),
+                textBlocks(l, "Blok No"),
+                textBlocks(m, "Bağımsız Bölüm No"),
+                textBlocks(n, "Niteliğin Açıklama"),
+                textBlocks(p, "En AZ Satış Bedeli"),
+                textBlocks(r, "İpotek Bedeli"),
+                textBlocks(s, "İpotek Para Birimi"),
+                textBlocks(t, "Kredi Faiz Oranı"),
+                textBlocks(u, "İpoteğin Derecesi"),
+                textBlocks(v, "Tapu Randevu Tarihi"),
+                textBlocks(y, "Cep Tel. No"),
+                textBlocks(z, "En Erken Ipotek Tesis Tarihi "),
+                textBlocks(aa, "Sorumlu Avukat"),
+                textBlocks(ab, "Sorumlu Avukat Bilgi"),
+                textBlocks(ac, "Sorumlu Avukat Bilgisi"),
+                textBlocks(ad, "Bloke Çek İşlemi"),
+                textBlocks(ae, "Randevu Sahibi"),
+                textBlocks(af, "Banka Açıklaması"),
+                textBlocks(ag, "Satıcı Adı"),
+                textBlocks(ah, "Kredi Faiz Oranı Değişken Mi"),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(0.0, 40, 0.0, 0.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 100,
+                    color: headColor,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.all(20.0),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width / 1.2,
+                            height: 52,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  primary: primaryBrand,
+                                ),
+                                onPressed: () {
+                                  if (appActionsLoaded == true)
+                                    showAlertDialog(context);
+                                  else {}
+                                },
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: const [
+                                    SizedBox(
+                                        child: Text(
+                                      "YAPILACAK İŞLEMİ SEÇ",
+                                      style: TextStyle(fontSize: 20),
+                                    )),
+                                  ],
+                                )),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ]),
+        ),
+      ),
+    );
   }
 
   @override
@@ -65,18 +368,23 @@ class _detailState extends State<TransactionDetail> {
     return Scaffold(
         appBar: AppBar(
           toolbarHeight: 80,
-          leadingWidth: 110,
           leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
+            icon: Padding(
+              padding: const EdgeInsets.only(left: 30.0),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
             ),
             onPressed: () {
               Navigator.pop(context);
             },
           ),
           backgroundColor: headColor,
-          title: Text("İşlem detay", style: TextStyle(color: primaryBrand)),
+          title: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: Text("İşlem Detay", style: TextStyle(color: primaryBrand)),
+          ),
           actions: [
             Padding(
               padding: EdgeInsets.fromLTRB(0.0, 0.0, 25.0, 0.0),
@@ -95,11 +403,17 @@ class _detailState extends State<TransactionDetail> {
           ],
         ),
         body: FutureBuilder<Log>(
-          future: getWorkFollowDetailXmlV2(widget.furefno, widget.num),
+          future: futuree,
           builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              var data = snapshot.data!;
-              return futureBody(context, data, widget.furefno, appActions);
+            if (snapshot.connectionState == ConnectionState.done) {
+              if (snapshot.hasData) {
+                var data = snapshot.data!;
+                return futureBody(context, data, widget.furefno);
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
             } else {
               return Center(
                 child: CircularProgressIndicator(),
@@ -108,448 +422,4 @@ class _detailState extends State<TransactionDetail> {
           },
         ));
   }
-}
-
-SingleChildScrollView futureBody(context, Log data, furefno, appActions) =>
-    SingleChildScrollView(
-      child: Container(
-        decoration: BoxDecoration(color: bgColor),
-        child: Center(
-          child: Column(children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 16.0, 0, 0.0),
-              child: Container(
-                width: 327,
-                height: 32,
-                // ignore: sort_child_properties_last
-                child: Center(
-                    child: Text(
-                  "DEĞİŞTİRİLECEK",
-                  style: TextStyle(color: Colors.white, fontSize: 16),
-                )),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Colors.red,
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 265.0, 0.0),
-              child: Text(
-                "Şartlı U.N",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.SartliUN,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 267.0, 0.0),
-              child: Text(
-                "Müşteri",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Musteri,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 275.0, 0.0),
-              child: Text(
-                "Malik",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Malik,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 300.0, 0.0),
-              child: Text(
-                "İl",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Il,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 295.0, 0.0),
-              child: Text(
-                "İlçe",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Ilce,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 265.0, 0.0),
-              child: Text(
-                "Mahalle",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Mahalle,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 295.0, 0.0),
-              child: Text(
-                "Ada",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Ada,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 235.0, 0.0),
-              child: Text(
-                "Randevu Tarihi",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.RandTarihi,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 255.0, 0.0),
-              child: Text(
-                "Cep Tel No",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.CepTel,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 185.0, 0.0),
-              child: Text(
-                "En Erken İpotek Tarihi",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.EnErkenIpotek,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 264.0, 0.0),
-              child: Text(
-                "Sorumlu",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Sorumlu,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 300.0, 0.0),
-              child: Text(
-                "Çek",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.Cek,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 223.0, 0.0),
-              child: Text(
-                "Randevu Sahibi",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.RandSahibi,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 10, 210.0, 0.0),
-              child: Text(
-                "Banka Açıklaması",
-                style: TextStyle(color: primaryGray),
-              ),
-            ),
-            SizedBox(
-              width: 320,
-              height: 50,
-              child: TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  border: InputBorder.none,
-                  filled: true,
-                  fillColor: headColor,
-                  hintText: data.BankaAciklamasi,
-                  hintStyle: TextStyle(fontSize: 14),
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(width: 3, color: Colors.grey)),
-                ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(0.0, 40, 0.0, 0.0),
-              child: Container(
-                width: 600,
-                height: 100,
-                color: headColor,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.all(20.0),
-                      child: SizedBox(
-                        width: 290,
-                        height: 52,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: primaryBrand,
-                            ),
-                            onPressed: () {
-                              showAlertDialog(context, appActions);
-                            },
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                SizedBox(
-                                    child: Text(
-                                  "YAPILACAK İŞLEMİ SEÇ",
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                              ],
-                            )),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            )
-          ]),
-        ),
-      ),
-    );
-
-showAlertDialog(BuildContext context, List<Log2> appActions) {
-  print(appActions[0].Adi);
-  Widget okButton(islem, index) => SizedBox(
-        child: Column(
-          children: [
-            Container(
-              width: 200,
-              height: index != 0 ? 1 : 0,
-              color: Colors.black26,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
-              child: TextButton(
-                child: Text(
-                  islem,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Mortgage()),
-                  );
-                },
-              ),
-            ),
-          ],
-        ),
-      );
-
-  // Create AlertDialog
-  AlertDialog alert = AlertDialog(
-    actionsAlignment: MainAxisAlignment.center,
-    content: Padding(
-      padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width,
-        child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: appActions.length,
-          itemBuilder: ((context, index) =>
-              okButton(appActions[index].Adi, index)),
-        ),
-      ),
-    ),
-  );
-
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
 }

@@ -28,11 +28,16 @@ class CountOfIstakib {
 
 class Donem {
   late List<Datas> datas;
+  late Datas datas2;
   Donem.fromJson(Map<String, dynamic> json) {
-    datas = <Datas>[];
-    json['Donem'].forEach((v) {
-      datas.add(Datas.fromJson(v));
-    });
+    try {
+      datas = <Datas>[];
+      json['Donem'].forEach((v) {
+        datas.add(Datas.fromJson(v));
+      });
+    } catch (e) {
+      datas2 = Datas.fromJson(json['Donem']);
+    }
   }
 
   Map<String, dynamic> toJson() {

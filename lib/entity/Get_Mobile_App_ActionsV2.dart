@@ -31,21 +31,19 @@ class MobileUygulamaAksiyonlari {
 
 class Aksiyon {
   late List<Log2> log;
+  late Log2 log2;
 
   Aksiyon({required this.log});
 
   Aksiyon.fromJson(Map<String, dynamic> json) {
-    log = <Log2>[];
-    json['Aksiyon'].forEach((v) {
-      log.add(new Log2.fromJson(v));
-    });
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> variable = Map<String, dynamic>();
-    variable['Aksiyon'] = this.log.map((v) => v.toJson()).toList();
-
-    return variable;
+    try {
+      log = <Log2>[];
+      json['Aksiyon'].forEach((v) {
+        log.add(new Log2.fromJson(v));
+      });
+    } catch (e) {
+      log2 = json['Aksiyon'];
+    }
   }
 }
 
@@ -56,6 +54,8 @@ class Log2 {
   late String BankaId;
   late String IsPhoto;
   late String FileName;
+
+  Log2(this.Adi);
 
   Log2.fromJson(Map<String, dynamic> json) {
     Adi = json['Adi'];

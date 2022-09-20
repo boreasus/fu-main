@@ -23,47 +23,61 @@ class searchResults extends StatefulWidget {
 
 // ignore: camel_case_types
 class _searchResultsState extends State<searchResults> {
-  FutureBody(BuildContext context, List<Log> data) => Container(
-        color: bgColor,
-        child: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 47,
-                color: primaryBrand,
-                child: Row(
-                  // ignore: prefer_const_literals_to_create_immutables
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 29.0),
-                      child: Text(
-                        '${widget.startDate} - ${widget.endDate}',
-                        style: TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white),
-                      ),
+  late var isBottomMenu;
+
+  @override
+  void initState() {
+    isBottomMenu = false;
+    super.initState();
+  }
+
+  FutureBody(BuildContext context, List<Log> data) {
+    Future.delayed(Duration.zero, () async {
+      isBottomMenu = true;
+    });
+
+    return Container(
+      color: bgColor,
+      child: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 47,
+              color: primaryBrand,
+              child: Row(
+                // ignore: prefer_const_literals_to_create_immutables
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 29.0),
+                    child: Text(
+                      '${widget.startDate} - ${widget.endDate}',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.white),
                     ),
-                    Spacer(),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 29.0),
-                      child: Text(
-                        'İşlem Adedi: ${data.length}',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 14,
-                            color: Colors.white),
-                      ),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 29.0),
+                    child: Text(
+                      'İşlem Adedi: ${data.length}',
+                      style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 14,
+                          color: Colors.white),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 0.0),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 0.0),
                 child: Container(
                     width: MediaQuery.of(context).size.width * 1,
-                    height: MediaQuery.of(context).size.height * 1,
+                    height: MediaQuery.of(context).size.height * 0.66,
                     child: ListView.builder(
                         itemCount: data.length,
                         itemBuilder: ((context, index) {
@@ -71,10 +85,12 @@ class _searchResultsState extends State<searchResults> {
                               data[index].IslemTarih, index);
                         }))),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-      );
+      ),
+    );
+  }
 
   var SelectedCard = 0;
 
@@ -124,14 +140,14 @@ class _searchResultsState extends State<searchResults> {
 
   Widget bottomMenu(BuildContext context) => Container(
         width: MediaQuery.of(context).size.width,
-        height: 100,
+        height: isBottomMenu == true ? 100 : 0,
         color: headColor,
         child: Column(
           children: [
             Padding(
               padding: EdgeInsets.all(20.0),
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.72,
+                width: MediaQuery.of(context).size.width - 90,
                 height: 52,
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -160,18 +176,21 @@ class _searchResultsState extends State<searchResults> {
         bottomSheet: bottomMenu(context),
         appBar: AppBar(
           toolbarHeight: 80,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
+          leading: Padding(
+            padding: const EdgeInsets.only(left: 30.0),
+            child: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
           ),
           backgroundColor: headColor,
           title: Padding(
-            padding: EdgeInsets.fromLTRB(0.0, 0.0, 0.0, 0.0),
+            padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
             child: Text("Raporlama Arama Sonuçları",
                 textAlign: TextAlign.center,
                 style: TextStyle(color: primaryBrand)),
@@ -183,8 +202,10 @@ class _searchResultsState extends State<searchResults> {
           builder: ((context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
+                isBottomMenu = true;
+
                 return FutureBody(context, snapshot.data!);
-              } else
+              } else {
                 return Container(
                   child: Center(
                       child: Column(
@@ -203,6 +224,7 @@ class _searchResultsState extends State<searchResults> {
                     ],
                   )),
                 );
+              }
             } else
               return Center(child: CircularProgressIndicator());
           }),

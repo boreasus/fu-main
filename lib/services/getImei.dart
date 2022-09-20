@@ -14,6 +14,9 @@ Future<String> getImei() async {
     var iosDeviceInfo = await deviceInfo.iosInfo;
     uniqueDeviceId = '${iosDeviceInfo.identifierForVendor}';
     return uniqueDeviceId; // unique ID on iOS
+
+
+    
   } else if (Platform.isAndroid) {
     var androidDeviceInfo = await deviceInfo.androidInfo;
     uniqueDeviceId = '${androidDeviceInfo.id}'; // unique ID on Android
