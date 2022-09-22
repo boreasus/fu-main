@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:fu_mobile/reporting/searchResults.dart';
 import 'package:intl/intl.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import '../utilities/constant.dart';
 
 // ignore: camel_case_types
@@ -85,10 +85,29 @@ class _transactionReportState extends State<transactionReport> {
                       readOnly: true,
                       onTap: () async {
                         DateTime? pickedDate = await showDatePicker(
+                            locale: const Locale("tr", "TR"),
                             context: context,
                             initialDate: DateTime.now(),
                             firstDate: DateTime(2000),
-                            lastDate: DateTime(2101));
+                            lastDate: DateTime(2101),
+                            builder: (context, child) {
+                              return Theme(
+                                  child: child!,
+                                  data: Theme.of(context).copyWith(
+                                    colorScheme: ColorScheme.light(
+                                      primary: primaryBrand, // <-- SEE HERE
+                                      onPrimary: Colors.white, // <-- SEE HERE
+                                      onSurface: Colors.black, // <-- SEE HERE
+                                    ),
+                                    textButtonTheme: TextButtonThemeData(
+                                      style: TextButton.styleFrom(
+                                        primary:
+                                            primaryBrand, // button text color
+                                      ),
+                                    ),
+                                  ));
+                            });
+
                         if (pickedDate != null) {
                           String formattedDate =
                               DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -128,10 +147,28 @@ class _transactionReportState extends State<transactionReport> {
                       onTap: () async {
                         if (dateInputStart.text.isNotEmpty) {
                           DateTime? pickedDate = await showDatePicker(
+                              locale: const Locale("tr", "TR"),
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: d1,
-                              lastDate: DateTime(2101));
+                              lastDate: DateTime(2101),
+                              builder: (context, child) {
+                                return Theme(
+                                    child: child!,
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: ColorScheme.light(
+                                        primary: primaryBrand, // <-- SEE HERE
+                                        onPrimary: Colors.white, // <-- SEE HERE
+                                        onSurface: Colors.black, // <-- SEE HERE
+                                      ),
+                                      textButtonTheme: TextButtonThemeData(
+                                        style: TextButton.styleFrom(
+                                          primary:
+                                              primaryBrand, // button text color
+                                        ),
+                                      ),
+                                    ));
+                              });
                           if (pickedDate != null) {
                             String formattedDate =
                                 DateFormat('yyyy-MM-dd').format(pickedDate);

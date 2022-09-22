@@ -23,7 +23,8 @@ class Mortgage extends StatefulWidget {
 class _MortgageState extends State<Mortgage> {
   File? image;
   var photoArray = [];
-
+  late var temp;
+  var byteEncoded = [];
   // ignore: unused_field
   Future<void> getImage() async {
     String? imagePath;
@@ -35,9 +36,8 @@ class _MortgageState extends State<Mortgage> {
       // String base64Image = base64Encode(bytes);
       // debugPrint("base64image'imiz3: " + base64Image, wrapWidth: 20000);
       final bytes = await Io.File(imagePath!).readAsBytes();
-      dev.log(base64Encode(bytes) + "***", name: 'log');
-
-      print("//aaaaaa/");
+      temp = base64.encode(bytes);
+      byteEncoded.add(Uri.encodeComponent(temp));
     } on PlatformException catch (e) {
       imagePath = e.toString();
     }

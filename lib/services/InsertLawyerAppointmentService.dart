@@ -12,6 +12,8 @@ Future<String> InsertLawyerAppointmentService(
   print(day);
   var api =
       'http://10.0.2.2:3000/insertLawyerAppointment/api/fu_mobile/Insert_LawyerAppointment/$ref/$time/$year/$month/$day';
+
+  print(api);
   var result = await Dio().get(api);
   print(Data.fromJson(result.data).pushLogs.Response);
 

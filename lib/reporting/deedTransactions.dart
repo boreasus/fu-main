@@ -173,28 +173,45 @@ class _deedTransactionsState extends State<deedTransactions> {
                   FutureBuilder<List<Log>>(
                     future: getCountOfLastYearFromTapuDairesi('A8B4084027'),
                     builder: ((context, snapshot) {
-                      if (snapshot.hasData) {
-                        print("aaaaaaaaaaa ${snapshot.data![0].Adet}");
-                        return Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: MediaQuery.of(context).size.height * 0.7,
-                          child: ListView.builder(
-                            itemCount: snapshot.data!.length,
-                            itemBuilder: (context, index) {
-                              List<Log> data = snapshot.data!;
-                              print(
-                                  "aaaaaaaaZZZ ${data[index].New_BankaIdName}");
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        if (snapshot.hasData) {
+                          print("aaaaaaaaaaa ${snapshot.data![0].Adet}");
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.7,
+                            child: ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (context, index) {
+                                List<Log> data = snapshot.data!;
+                                print(
+                                    "aaaaaaaaZZZ ${data[index].New_BankaIdName}");
 
-                              return tableRow(
-                                  data[index].New_anabankaidName,
-                                  data[index].New_BankaIdName,
-                                  data[index].Adet,
-                                  index);
-                            },
-                          ),
-                        );
+                                return tableRow(
+                                    data[index].New_anabankaidName,
+                                    data[index].New_BankaIdName,
+                                    data[index].Adet,
+                                    index);
+                              },
+                            ),
+                          );
+                        } else {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            height: MediaQuery.of(context).size.height * 0.7,
+                            child: ListView.builder(
+                              itemCount: 1,
+                              itemBuilder: (context, index) {
+                                return tableRow("Herhangi bir veriniz",
+                                    "bulunmamaktadır.", "/", 1);
+                              },
+                            ),
+                          );
+                        }
                       } else
-                        return Container();
+                        return Container(
+                          height: 100,
+                          child: Center(child: CircularProgressIndicator()),
+                        );
                     }),
                   )
                 ],

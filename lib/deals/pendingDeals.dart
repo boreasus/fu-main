@@ -60,9 +60,8 @@ class _pendingDealsState extends State<pendingDeals> {
       // String base64Image = base64Encode(bytes);
       // debugPrint("base64image'imiz3: " + base64Image, wrapWidth: 20000);
       final bytes = await Io.File(imagePath!).readAsBytes();
-      byteEncoded = base64Encode(bytes);
-      print(byteEncoded);
-      print("//aaaaaa/");
+      byteEncoded = base64.encode(bytes);
+      byteEncoded = Uri.encodeComponent(byteEncoded);
     } on PlatformException catch (e) {
       imagePath = e.toString();
     }
@@ -75,21 +74,25 @@ class _pendingDealsState extends State<pendingDeals> {
   Future<void> ChangePhoto(index) async {
     String? imagePath;
     try {
-      imagePath = (await EdgeDetection.detectEdge);
-      print("aha da bu çalıştı $imagePath ");
-
+      XFile? pickedFile = await ImagePicker().pickImage(
+        source: ImageSource.gallery,
+        maxWidth: 1800,
+        maxHeight: 1800,
+      );
+      imagePath = pickedFile!.path;
       // final bytes = File(imagePath!).readAsBytesSync();
       // String base64Image = base64Encode(bytes);
       // debugPrint("base64image'imiz3: " + base64Image, wrapWidth: 20000);
-      final bytes = await Io.File(imagePath!).readAsBytes();
-      byteEncoded = base64Url.encode(bytes);
+      final bytes = await Io.File(imagePath).readAsBytes();
+      byteEncoded = base64.encode(bytes);
+      byteEncoded = Uri.encodeComponent(byteEncoded);
+      setState(() {
+        photoArray[index] = imagePath;
+      });
     } on PlatformException catch (e) {
       imagePath = e.toString();
     }
     if (!mounted) return;
-    setState(() {
-      photoArray[index] = imagePath;
-    });
   }
 
   _getFromGallery() async {
@@ -102,10 +105,10 @@ class _pendingDealsState extends State<pendingDeals> {
       setState(() {
         photoArray.add((pickedFile.path));
       });
+      final bytes = await Io.File(pickedFile.path).readAsBytes();
+      byteEncoded = base64.encode(bytes);
+      byteEncoded = Uri.encodeComponent(byteEncoded);
     }
-    final bytes = await Io.File(pickedFile!.path).readAsBytes();
-    byteEncoded = base64.encode(bytes);
-    byteEncoded = Uri.encodeComponent(byteEncoded);
   }
 
   Padding photoCard(context, photoUrl, index) {
@@ -518,10 +521,30 @@ class _pendingDealsState extends State<pendingDeals> {
                           readOnly: true,
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
+                                locale: const Locale("tr", "TR"),
                                 context: context,
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(2000),
-                                lastDate: DateTime(2101));
+                                lastDate: DateTime(2101),
+                                builder: (context, child) {
+                                  return Theme(
+                                      child: child!,
+                                      data: Theme.of(context).copyWith(
+                                        colorScheme: ColorScheme.light(
+                                          primary: primaryBrand, // <-- SEE HERE
+                                          onPrimary:
+                                              Colors.white, // <-- SEE HERE
+                                          onSurface:
+                                              Colors.black, // <-- SEE HERE
+                                        ),
+                                        textButtonTheme: TextButtonThemeData(
+                                          style: TextButton.styleFrom(
+                                            primary:
+                                                primaryBrand, // button text color
+                                          ),
+                                        ),
+                                      ));
+                                });
                             if (pickedDate != null) {
                               String formattedDate =
                                   DateFormat('yyyy-MM-dd').format(pickedDate);
@@ -705,6 +728,7 @@ showAlertDialogTrue(BuildContext context, pGuidMutabakatId, pStrMakbuzNo,
         style: TextStyle(fontSize: 18, color: okColor),
       ),
       onPressed: () {
+        Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);
         Navigator.pop(context);

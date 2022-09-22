@@ -78,62 +78,6 @@ class _dealsState extends State<deals> {
                   color: primaryGray,
                 ),
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 28.0, 0.0, 0.0),
-                    child: Text(
-                      "Performans Tablosu",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 28.0, 0.0, 0.0),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => performanceTable()),
-                          );
-                        },
-                        icon: Icon(Icons.keyboard_arrow_right),
-                      ))
-                ],
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  height: 1,
-                  color: primaryGray,
-                ),
-              ),
-              Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(25.0, 15.0, 0.0, 0.0),
-                    child: Text(
-                      "İşlem Tablosu",
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Spacer(),
-                  Padding(
-                      padding: EdgeInsets.fromLTRB(0.0, 28.0, 0.0, 0.0),
-                      child: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => processTable()),
-                          );
-                        },
-                        icon: Icon(Icons.keyboard_arrow_right),
-                      ))
-                ],
-              ),
             ],
           ),
         ),

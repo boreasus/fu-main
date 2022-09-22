@@ -81,7 +81,7 @@ class _newAppointmentState extends State<newAppointment> {
         ),
       );
 
-  List<Log> deneme = [Log(New_FuReferansNo: "2", New_name: "Deneme")];
+  // List<Log> deneme = [Log(New_FuReferansNo: "2", New_name: "Deneme")];
 
   TextEditingController dateinput = TextEditingController(text: "Tarih Seçin");
   TimeOfDay selectedTime = TimeOfDay.now();
@@ -198,10 +198,31 @@ class _newAppointmentState extends State<newAppointment> {
                           InkWell(
                             onTap: () async {
                               DateTime? pickedDate = await showDatePicker(
+                                  locale: const Locale("tr", "TR"),
                                   context: context,
                                   initialDate: DateTime.now(),
                                   firstDate: DateTime(2022),
-                                  lastDate: DateTime(2024));
+                                  lastDate: DateTime(2024),
+                                  builder: (context, child) {
+                                    return Theme(
+                                        child: child!,
+                                        data: Theme.of(context).copyWith(
+                                          colorScheme: ColorScheme.light(
+                                            primary:
+                                                primaryBrand, // <-- SEE HERE
+                                            onPrimary:
+                                                Colors.white, // <-- SEE HERE
+                                            onSurface:
+                                                Colors.black, // <-- SEE HERE
+                                          ),
+                                          textButtonTheme: TextButtonThemeData(
+                                            style: TextButton.styleFrom(
+                                              primary:
+                                                  primaryBrand, // button text color
+                                            ),
+                                          ),
+                                        ));
+                                  });
                               if (pickedDate != null) {
                                 setState(() {
                                   String formattedDate =

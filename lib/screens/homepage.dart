@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fu_mobile/deals/deals.dart';
+import 'package:fu_mobile/deals/tableRights.dart';
 import 'package:fu_mobile/documents/delivery.dart';
 import 'package:fu_mobile/notifications/notifications.dart';
 import 'package:fu_mobile/permission/myPermissions.dart';
@@ -476,7 +477,7 @@ class _homePageState extends State<homePage> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => deals()),
+                                      builder: (context) => tableRights()),
                                 );
                               },
                               child: Row(

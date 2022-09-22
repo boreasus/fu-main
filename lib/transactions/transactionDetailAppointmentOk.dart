@@ -7,7 +7,6 @@ import 'package:image_picker/image_picker.dart';
 
 import '../utilities/constant.dart';
 
-
 // ignore: camel_case_types
 class TransactionDetailAppointmentOk extends StatefulWidget {
   const TransactionDetailAppointmentOk({Key? key}) : super(key: key);
@@ -87,14 +86,14 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
               Padding(
                 padding: EdgeInsets.fromLTRB(0, 16.0, 0, 0.0),
                 child: Container(
-                  width: 327,
+                  width: 400,
                   height: 32,
                   // ignore: sort_child_properties_last
                   child: Center(
                       child: Text(
-                        "Tapu Randevusu alınmış",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
-                      )),
+                    "Tapu Randevusu alınmış",
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  )),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: Colors.blue,
@@ -118,7 +117,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa \n FU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa \n FU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -142,7 +141,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -166,7 +165,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -190,7 +189,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -214,7 +213,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -238,7 +237,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -262,7 +261,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -286,7 +285,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -310,7 +309,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -334,7 +333,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -358,7 +357,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -382,7 +381,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -406,7 +405,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -430,7 +429,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                     filled: true,
                     fillColor: headColor,
                     hintText:
-                    "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
+                        "İşlemde vekaletname kullanılacaksa\nFU merkeze göndermenizi rica ederiz",
                     hintStyle: TextStyle(fontSize: 14),
                     enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(width: 3, color: Colors.grey)),
@@ -454,9 +453,7 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                               style: ElevatedButton.styleFrom(
                                 primary: primaryBrand,
                               ),
-                              onPressed: () {
-
-                              },
+                              onPressed: () {},
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: const [
@@ -486,15 +483,13 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                               side: BorderSide(color: primaryBrand, width: 1),
                               primary: headColor,
                             ),
-                            onPressed: () {
-
-                            },
+                            onPressed: () {},
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: const [
                                 Padding(
                                   padding:
-                                  EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
+                                      EdgeInsets.fromLTRB(0.0, 0.0, 10.0, 0.0),
                                   child: Icon(
                                     Icons.not_interested,
                                     color: primaryBrand,
@@ -512,13 +507,10 @@ class _detailState extends State<TransactionDetailAppointmentOk> {
                   ),
                 ),
               ),
-            ]
-            ),
+            ]),
           ),
         ),
       ),
     );
   }
 }
-
-

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:fu_mobile/reporting/deedTransactions.dart';
 import 'package:fu_mobile/reporting/transactionReport.dart';
+import 'package:fu_mobile/resultTables/performanceTable.dart';
+import 'package:fu_mobile/resultTables/processTable.dart';
 
 import '../utilities/constant.dart';
 
@@ -75,9 +77,9 @@ class _reportingState extends State<reporting> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
                 child: Container(
-                  width: MediaQuery.of(context).size.width - 48,
+                  width: MediaQuery.of(context).size.width,
                   height: 1,
                   color: primaryGray,
                 ),
@@ -107,6 +109,72 @@ class _reportingState extends State<reporting> {
                           //   MaterialPageRoute(
                           //       builder: (context) => deedTransactions()),
                           // );
+                        },
+                        icon: Icon(Icons.keyboard_arrow_right),
+                      )),
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 1,
+                  color: primaryGray,
+                ),
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25.0, 15.0, 0.0, 0.0),
+                    child: Text(
+                      "Performans Tablosu",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0.0, 15.0, 25, 0.0),
+                      child: IconButton(
+                        iconSize: 30,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => performanceTable()),
+                          );
+                        },
+                        icon: Icon(Icons.keyboard_arrow_right),
+                      ))
+                ],
+              ),
+              Padding(
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 1,
+                  color: primaryGray,
+                ),
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25.0, 15.0, 0.0, 0.0),
+                    child: Text(
+                      "İşlem Tablosu",
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Spacer(),
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(0.0, 15.0, 25, 0.0),
+                      child: IconButton(
+                        iconSize: 30,
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => processTable()),
+                          );
                         },
                         icon: Icon(Icons.keyboard_arrow_right),
                       ))

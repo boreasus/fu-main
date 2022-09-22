@@ -7,6 +7,7 @@ Future<Data> AgreementDealClient(String imei) async {
   var api =
       'http://10.0.2.2:3000/agreementDeals/api/fu_mobile/GetYapilacakMutabakat/$imei';
   var result = await Dio().get(api);
+  print(result.data);
   print(ResponseData.fromJson(result.data).hakedis.data.id);
   print(ResponseData.fromJson(result.data).hakedis.data.donem);
   return (ResponseData.fromJson(result.data).hakedis.data);

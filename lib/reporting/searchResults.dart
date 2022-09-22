@@ -23,11 +23,11 @@ class searchResults extends StatefulWidget {
 
 // ignore: camel_case_types
 class _searchResultsState extends State<searchResults> {
-  late var isBottomMenu;
+  var isBottomMenu = true;
 
   @override
   void initState() {
-    isBottomMenu = false;
+    isBottomMenu = true;
     super.initState();
   }
 

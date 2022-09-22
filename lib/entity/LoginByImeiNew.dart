@@ -41,14 +41,14 @@ class Log {
       required this.VeriKullanimIzni});
 
   Log.fromJson(Map<String, dynamic> json) {
-    Ad = json['Ad'];
-    FullName = json['FullName'];
-    New_FuReferansNo = json['New_FuReferansNo'];
-    New_TapuRandevuTarihi = json['New_TapuRandevuTarihi'];
-    CreatedOn = json['CreatedOn'];
-    New_IsinTipi = json['New_IsinTipi'];
-    VeriKullanimIzni = json['VeriKullanimIzni'];
-    Category = json['Category'];
+    Ad = json['Ad'] ?? "";
+    FullName = json['FullName'] ?? "";
+    New_FuReferansNo = json['New_FuReferansNo'] ?? "";
+    New_TapuRandevuTarihi = json['New_TapuRandevuTarihi'] ?? "";
+    CreatedOn = json['CreatedOn'] ?? "";
+    New_IsinTipi = json['New_IsinTipi'] ?? "";
+    VeriKullanimIzni = json['VeriKullanimIzni'] ?? "";
+    Category = json['Category'] ?? "";
   }
 
   Map<String, dynamic> toJson() {

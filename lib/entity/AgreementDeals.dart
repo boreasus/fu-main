@@ -24,11 +24,6 @@ class ResponseData {
   ResponseData.fromJson(Map<String, dynamic> json) {
     hakedis = Hakedis.fromJson(json['data']);
   }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> variable = Map<String, dynamic>();
-    variable['data'] = this.hakedis.toJson();
-    return variable;
-  }
 }
 
 class Hakedis {
@@ -38,11 +33,6 @@ class Hakedis {
   });
   Hakedis.fromJson(Map<String, dynamic> json) {
     data = Data.fromJson(json['Hakedis']);
-  }
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> variable = Map<String, dynamic>();
-    variable['Hakedis'] = this.data.toJson();
-    return variable;
   }
 }
 
@@ -57,27 +47,14 @@ class Data {
   late String mutabakat;
 
   Data.fromJson(Map<String, dynamic> json) {
-    id = json['New_mutabakattalebiId'];
-    donem = json['Dönem'];
-    islem = json['İşlemSayısı'];
-    brut = json['BRÜTTUTAR'];
-    stopaj = json['STOPAJTL'];
-    kdv = json['KDV'];
-    netkazanc = json['NETKAZANÇ'];
-    mutabakat = json['MutabakatDurumu'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['New_mutabakattalebiId'] = this.id;
-    data['Dönem'] = this.donem;
-    data['İşlemSayısı'] = this.islem;
-    data['BRÜTTUTAR'] = this.brut;
-    data['STOPAJTL'] = this.stopaj;
-    data['KDV'] = this.kdv;
-    data['NETKAZANÇ'] = this.netkazanc;
-    data['MutabakatDurumu'] = this.mutabakat;
-    return data;
+    id = json['New_mutabakattalebiId'] ?? "";
+    donem = json['Dönem'] ?? "";
+    islem = json['İşlemSayısı'] ?? "";
+    brut = json['BRÜTTUTAR'] ?? "";
+    stopaj = json['STOPAJTL'] ?? "";
+    kdv = json['KDV'] ?? "";
+    netkazanc = json['NETKAZANÇ'] ?? "";
+    mutabakat = json['MutabakatDurumu'] ?? "";
   }
 }
 

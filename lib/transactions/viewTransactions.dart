@@ -71,8 +71,9 @@ class _ViewTransactionsState extends State<ViewTransactions> {
                   snapshot.data![index].New_TapuRandevuTarihi,
                   context,
                   colors[snapshot.data![index].Category],
-                  snapshot.data![index].Category,
+                  snapshot.data![index].New_IsinTipi,
                   snapshot.data![index].New_FuReferansNo,
+                  snapshot.data![index].New_TapuRandevuTarihi,
                 )
               : Container()),
         ),
@@ -95,6 +96,7 @@ class _ViewTransactionsState extends State<ViewTransactions> {
                       colors[logList[index].Category],
                       logList[index].Category,
                       snapshot.data![index].New_FuReferansNo,
+                      snapshot.data![index].New_TapuRandevuTarihi,
                     )
                   : Container()),
         ),
@@ -481,11 +483,13 @@ class ContainerLine extends StatelessWidget {
   }
 }
 
-Padding card(name, date, context, clr, num, furefno) {
+Padding card(name, date, context, clr, num, furefno, tapuDate) {
   name = name as String;
-  name = name.substring(12);
-  print("${clr} = clr    $num = num");
-  print("$furefno");
+
+  date = name.substring(name.length - 19, name.length);
+  name = name.substring(0, name.length - 19);
+  // print("${clr} = clr    $num = num");
+  // print("$furefno");
   return Padding(
     padding: const EdgeInsets.only(top: 10.0),
     child: Container(
@@ -501,10 +505,12 @@ Padding card(name, date, context, clr, num, furefno) {
                   builder: (context) => TransactionDetail(
                         furefno: furefno,
                         num: num,
+                        dateText: tapuDate,
                       )),
             );
           },
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 name,

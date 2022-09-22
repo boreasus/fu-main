@@ -35,7 +35,7 @@ class _tableRightsState extends State<tableRights> {
         backgroundColor: headColor,
         title: Padding(
           padding: EdgeInsets.fromLTRB(30.0, 0.0, 0.0, 0.0),
-          child: Text("Hakediş Tablosu",
+          child: Text("Mutabakatlarım",
               textAlign: TextAlign.center,
               style: TextStyle(color: primaryBrand)),
         ),
@@ -71,7 +71,7 @@ class _tableRightsState extends State<tableRights> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
                 child: Container(
                   width: MediaQuery.of(context).size.width,
                   height: 1,
@@ -104,9 +104,9 @@ class _tableRightsState extends State<tableRights> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+                padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 0.0),
                 child: Container(
-                  width: 350,
+                  width: MediaQuery.of(context).size.width,
                   height: 1,
                   color: primaryGray,
                 ),

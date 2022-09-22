@@ -122,10 +122,28 @@ class _deliveryState extends State<delivery> {
                         readOnly: true,
                         onTap: () async {
                           DateTime? pickedDate = await showDatePicker(
+                              locale: const Locale("tr", "TR"),
                               context: context,
                               initialDate: DateTime.now(),
                               firstDate: DateTime(2000),
-                              lastDate: DateTime(2101));
+                              lastDate: DateTime(2101),
+                              builder: (context, child) {
+                                return Theme(
+                                    child: child!,
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: ColorScheme.light(
+                                        primary: primaryBrand, // <-- SEE HERE
+                                        onPrimary: Colors.white, // <-- SEE HERE
+                                        onSurface: Colors.black, // <-- SEE HERE
+                                      ),
+                                      textButtonTheme: TextButtonThemeData(
+                                        style: TextButton.styleFrom(
+                                          primary:
+                                              primaryBrand, // button text color
+                                        ),
+                                      ),
+                                    ));
+                              });
                           if (pickedDate != null) {
                             String formattedDate =
                                 DateFormat('yyyy-MM-dd').format(pickedDate);
