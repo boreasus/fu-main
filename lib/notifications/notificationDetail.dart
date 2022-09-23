@@ -73,9 +73,8 @@ class _notificationDetailState extends State<notificationDetail> {
                   TextButton(
                       onPressed: () async {
                         print(widget.id);
-                        var result =
-                            await updateStatue(widget.id, "4"); //burda hata var
-                        print(result);
+                        var result = await updateStatue(widget.id, "4");
+                        print(">>>> $result");
                         setState(() {
                           readed = "Okunmadı olarak işaretlendi";
                           backPressedDate = "Mesaj_Okunmadı";

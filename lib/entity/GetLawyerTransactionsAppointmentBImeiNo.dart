@@ -9,7 +9,6 @@ class Data {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['data'] = this.isTakibi.toJson();
-    print("11");
     print(data);
 
     return data;

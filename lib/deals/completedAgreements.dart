@@ -46,8 +46,7 @@ class _completedAgreementsState extends State<completedAgreements> {
               if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
                   if (snapshot.data!.mutabakat == "4" ||
-                      snapshot.data!.mutabakat == "5" ||
-                      snapshot.data!.mutabakat == "6") {
+                      snapshot.data!.mutabakat == "5") {
                     return Container(
                         color: bgColor,
                         child: Padding(
@@ -383,6 +382,11 @@ class _completedAgreementsState extends State<completedAgreements> {
                                   )),
                               Spacer(),
                             ])));
+                  } else if (snapshot.data!.mutabakat == "3") {
+                    return Center(
+                      child: Text(
+                          'Mutabakat toplam tutarınız belirlenen limitin altındadır.'),
+                    );
                   } else {
                     return Center(
                       child: Text('Yapılacak Mutabakatınız bulunmamaktadır.'),

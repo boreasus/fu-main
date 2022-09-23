@@ -164,6 +164,7 @@ Widget menus(context, category, counter, data) => Row(
                         builder: (context) => informationNoties(
                               data: data,
                               category: category,
+                              comingFromIslemler: 0,
                             )));
               }),
               icon: Icon(Icons.keyboard_arrow_right)),

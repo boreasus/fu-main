@@ -3,7 +3,10 @@ import 'dart:io';
 import 'package:edge_detection/edge_detection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:fu_mobile/entity/Get_Mobile_App_ActionsV2.dart';
+import 'package:fu_mobile/notifications/informationNotices.dart';
+import 'package:fu_mobile/services/GetPushLogs_WithFuReferenceNumber.dart';
 import 'package:fu_mobile/services/Get_Mobile_App_ActionsV2Service.dart';
 import 'package:fu_mobile/services/getWorkFollowDetailXmlV2Service.dart';
 import 'package:fu_mobile/transactions/mortgage.dart';
@@ -13,17 +16,22 @@ import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../utilities/constant.dart';
 import '../services/InsertLawyerAppointmentService.dart';
+import '../entity/getPushLogsWithFuReferenceNumber.dart';
 
 // ignore: camel_case_types
 class TransactionDetail extends StatefulWidget {
+  final Color color;
   final String furefno;
   final String num;
   final String dateText;
+  final String category;
   const TransactionDetail(
       {Key? key,
+      required this.color,
       required this.furefno,
       required this.num,
-      required this.dateText})
+      required this.dateText,
+      required this.category})
       : super(key: key);
   @override
   State<TransactionDetail> createState() => _detailState();
@@ -31,6 +39,124 @@ class TransactionDetail extends StatefulWidget {
 
 // ignore: camel_case_types
 class _detailState extends State<TransactionDetail> {
+  showAlertDialogMessage(BuildContext context) {
+    Widget loadingContainer() => SizedBox(
+          width: 50,
+          height: 50,
+          child: Center(child: CircularProgressIndicator()),
+        );
+    Widget errorBox() => Wrap(
+          children: [
+            Center(
+                child: Column(
+              // ignore: prefer_const_literals_to_create_immutables
+              children: [
+                Text('Bu işleme ait bildirim bulunmamaktadır.'),
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Container(
+                    height: 1,
+                    width: MediaQuery.of(context).size.width,
+                    color: bgColor,
+                  ),
+                ),
+                TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      'Tamam',
+                      style: TextStyle(fontSize: 18, color: primaryBrand),
+                    ))
+              ],
+            )),
+          ],
+        );
+    // Create AlertDialog
+    AlertDialog alert = AlertDialog(
+      actionsAlignment: MainAxisAlignment.center,
+      content: Padding(
+        padding: EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 0.0),
+        child: Container(
+            width: MediaQuery.of(context).size.width,
+            child: FutureBuilder<List<LogRef>>(
+              future: getPushLogByFuRefNo(widget.furefno),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  print(snapshot.data);
+                  if (snapshot.hasData) {
+                    Future.delayed(Duration.zero, () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => informationNoties(
+                                    data: snapshot.data,
+                                    category: snapshot.data?[0].Category ??
+                                        "İş Takibi",
+                                    comingFromIslemler: 1,
+                                  )));
+                    });
+                    return widget;
+                  } else {
+                    return errorBox();
+                  }
+                } else {
+                  return loadingContainer();
+                }
+              },
+            )),
+      ),
+    );
+
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
+  showAlertDialogBankTitle(BuildContext context, text) {
+    Widget alert = Wrap(
+      children: [
+        Center(
+            child: Column(
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            Text(text),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Container(
+                height: 1,
+                width: MediaQuery.of(context).size.width,
+                color: bgColor,
+              ),
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  'Tamam',
+                  style: TextStyle(fontSize: 18, color: primaryBrand),
+                ))
+          ],
+        )),
+      ],
+    );
+    // Create AlertDialog
+
+    showDialog(
+      barrierDismissible: true,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   showAlertDialog(BuildContext context) {
     Widget loadingContainer() => SizedBox(
           width: 50,
@@ -576,12 +702,15 @@ class _detailState extends State<TransactionDetail> {
                       // ignore: sort_child_properties_last
                       child: Center(
                           child: Text(
-                        "DEĞİŞTİRİLECEK",
-                        style: TextStyle(color: Colors.white, fontSize: 16),
+                        "${(widget.category == "99" ? "Diğer" : widget.category == "1" ? "Tapu Randevusu alınmış" : widget.category == "2" ? "İpotek Evrağı gönderilmiş" : widget.category == "3" ? "Evrağı Gönderilmiş diğer" : widget.category == "1" ? "Gönderilmeyen" : "")}",
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       )),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color: Colors.red,
+                        color: widget.color,
                       ),
                     ),
                   ),
@@ -615,7 +744,8 @@ class _detailState extends State<TransactionDetail> {
                             var index = phoneNum.indexOf('-');
                             phoneNum =
                                 phoneNum.substring(index, phoneNum.length);
-                            phoneNum[0] != "0"
+                            print(phoneNum.length);
+                            phoneNum.length == 11
                                 ? launch("tel:0$phoneNum")
                                 : launch("tel:$phoneNum");
                             ;
@@ -706,7 +836,9 @@ class _detailState extends State<TransactionDetail> {
                     Icons.mail,
                     color: primaryBrand,
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    await showAlertDialogMessage(context);
+                  },
                 ),
               ),
             )
@@ -717,6 +849,21 @@ class _detailState extends State<TransactionDetail> {
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done) {
               if (snapshot.hasData) {
+                if (snapshot.data!.BankaAciklamasi.length > 7) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) =>
+                      Fluttertoast.showToast(
+                          textColor: Colors.white,
+                          backgroundColor: primaryBrand,
+                          msg: snapshot.data!.BankaAciklamasi,
+                          toastLength: Toast.LENGTH_LONG,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1));
+
+                  // Future.delayed(Duration.zero, () {
+                  //   showAlertDialogBankTitle(
+                  //       context, snapshot.data!.BankaAciklamasi);
+                  // });
+                }
                 var data = snapshot.data!;
                 return futureBody(context, data, widget.furefno);
               } else {

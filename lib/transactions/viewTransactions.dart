@@ -74,6 +74,7 @@ class _ViewTransactionsState extends State<ViewTransactions> {
                   snapshot.data![index].New_IsinTipi,
                   snapshot.data![index].New_FuReferansNo,
                   snapshot.data![index].New_TapuRandevuTarihi,
+                  snapshot.data![index].Category,
                 )
               : Container()),
         ),
@@ -97,6 +98,7 @@ class _ViewTransactionsState extends State<ViewTransactions> {
                       logList[index].Category,
                       snapshot.data![index].New_FuReferansNo,
                       snapshot.data![index].New_TapuRandevuTarihi,
+                      snapshot.data![index].Category,
                     )
                   : Container()),
         ),
@@ -402,6 +404,65 @@ class _ViewTransactionsState extends State<ViewTransactions> {
     );
   }
 
+  Padding card(name, date, context, clr, num, furefno, tapuDate, category) {
+    name = name as String;
+
+    date = name.substring(name.length - 19, name.length);
+    name = name.substring(0, name.length - 19);
+    // print("${clr} = clr    $num = num");
+    // print("$furefno");
+    return Padding(
+      padding: const EdgeInsets.only(top: 10.0),
+      child: Container(
+        color: clr,
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: InkWell(
+            onTap: () {
+              print("bu numdur $num");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TransactionDetail(
+                          color: colors[category]!,
+                          furefno: furefno,
+                          num: num,
+                          dateText: tapuDate,
+                          category: category,
+                        )),
+              );
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                      fontSize: 15, fontFamily: 'Inter', color: Colors.white),
+                ),
+                SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
+                    Spacer(),
+                    Text(
+                      date,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontFamily: 'Inter',
+                          color: Colors.white),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -481,59 +542,4 @@ class ContainerLine extends StatelessWidget {
       ),
     );
   }
-}
-
-Padding card(name, date, context, clr, num, furefno, tapuDate) {
-  name = name as String;
-
-  date = name.substring(name.length - 19, name.length);
-  name = name.substring(0, name.length - 19);
-  // print("${clr} = clr    $num = num");
-  // print("$furefno");
-  return Padding(
-    padding: const EdgeInsets.only(top: 10.0),
-    child: Container(
-      color: clr,
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: InkWell(
-          onTap: () {
-            print("bu numdur $num");
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => TransactionDetail(
-                        furefno: furefno,
-                        num: num,
-                        dateText: tapuDate,
-                      )),
-            );
-          },
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                name,
-                style: TextStyle(
-                    fontSize: 15, fontFamily: 'Inter', color: Colors.white),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Row(
-                children: [
-                  Spacer(),
-                  Text(
-                    date,
-                    style: TextStyle(
-                        fontSize: 15, fontFamily: 'Inter', color: Colors.white),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
 }

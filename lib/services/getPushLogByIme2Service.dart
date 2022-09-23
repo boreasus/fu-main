@@ -10,7 +10,14 @@ Future<List<Log>>? getPushLogByImei2(String imei) async {
     var result = await Dio().get(api);
     print(
         "servis çalıştı ${ResultImeiStr.fromJson(result.data).resultIMEI2.pushLogs.log[0].Category}");
-    return ResultImeiStr.fromJson(result.data).resultIMEI2.pushLogs.log;
+    var data = ResultImeiStr.fromJson(result.data).resultIMEI2.pushLogs.log;
+    if (data.isNotEmpty) {
+      return ResultImeiStr.fromJson(result.data).resultIMEI2.pushLogs.log;
+    } else {
+      List<Log> log = [];
+      log.add(ResultImeiStr.fromJson(result.data).resultIMEI2.pushLogs.log2);
+      return log;
+    }
   } catch (e) {
     throw e;
   }

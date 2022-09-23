@@ -658,6 +658,11 @@ class _agreementsMadeState extends State<agreementsMade> {
                               Spacer(),
                               bottomMenu(),
                             ])));
+                  } else if (snapshot.data!.mutabakat == "3") {
+                    return Center(
+                      child: Text(
+                          'Mutabakat toplam tutarınız belirlenen limitin altındadır.'),
+                    );
                   } else {
                     return Center(
                       child: Text('Yapılacak Mutabakatınız bulunmamaktadır.'),

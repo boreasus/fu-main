@@ -29,7 +29,6 @@ class Log {
 
   Log.fromJson(Map<String, dynamic> json) {
     IslemTarih = json['IslemTarih'];
-    print("IslemTarih");
     IslemSaat = json['IslemSaat'];
     AnaBanka = json['AnaBanka'];
     Sube = json['Sube'];

@@ -1,55 +1,22 @@
-class ResultImeiStr {
-  late ResultIMEI2 resultIMEI2;
-
-  ResultImeiStr.fromJson(Map<String, dynamic> json) {
-    resultIMEI2 = ResultIMEI2.fromJson(json['data']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['data'] = this.resultIMEI2.toJson();
-    return data;
-  }
-}
-
-class ResultIMEI2 {
-  late PushLogs pushLogs;
-
-  ResultIMEI2.fromJson(Map<String, dynamic> json) {
-    pushLogs = PushLogs.fromJson(json['PushLogs']);
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['PushLogs'] = this.pushLogs.toJson();
-    return data;
-  }
-}
-
 class PushLogs {
-  late Log log2;
-  late List<Log> log;
+  late List<LogRef> log;
+  late LogRef log2;
 
   PushLogs.fromJson(Map<String, dynamic> json) {
     try {
-      log = <Log>[];
-      json['Log'].forEach((v) {
-        log.add(Log.fromJson(v));
+      log = <LogRef>[];
+      json['data'].forEach((v) {
+        log.add(LogRef.fromJson(v));
       });
     } catch (e) {
-      log2 = json['Log'];
+      print(json['data']);
+      log2 = LogRef.fromJson(json['data']);
     }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> variable = Map<String, dynamic>();
-    variable['Log'] = this.log.map((v) => v.toJson()).toList();
-    return variable;
   }
 }
 
 //SUB CLASS
-class Log {
+class LogRef {
   late String Category;
   late String MessageStatus;
   late String PushId;
@@ -60,7 +27,7 @@ class Log {
   late String statuscode;
   late String SendingDate;
   late String PushLogId;
-  Log(
+  LogRef(
       {required this.Category,
       required this.MessageStatus,
       required this.PushId,
@@ -72,7 +39,9 @@ class Log {
       required this.SendingDate,
       required this.PushLogId});
 
-  Log.fromJson(Map<String, dynamic> json) {
+  LogRef.fromJson(Map<String, dynamic> json) {
+    print("bbb çalıştı");
+
     Category = json['Category'] ?? "";
     MessageStatus = json['MessageStatus'] ?? "";
     PushId = json['PushId'] ?? "";

@@ -1,4 +1,4 @@
-// ignore_for_file: file_names
+// ignore_for_file: file_names, curly_braces_in_flow_control_structures
 
 import 'package:flutter/material.dart';
 import 'package:fu_mobile/notifications/notificationDetail.dart';
@@ -9,11 +9,16 @@ import 'package:fu_mobile/entity/GetPushLogs_WithImei2.dart';
 
 // ignore: camel_case_types
 class informationNoties extends StatefulWidget {
-  final List<Log> data;
+  // final List<Log> data;
+  final data;
   final String category;
+  final comingFromIslemler;
 
   const informationNoties(
-      {Key? key, required this.data, required this.category})
+      {Key? key,
+      required this.data,
+      required this.category,
+      required this.comingFromIslemler})
       : super(key: key);
 
   @override
@@ -23,11 +28,18 @@ class informationNoties extends StatefulWidget {
 // ignore: camel_case_types
 class _informationNotiesState extends State<informationNoties> {
   String goBackValue = "Mesaj_Okundu";
-  List<Log> list = [];
+  List list = [];
   @override
   void initState() {
-    for (var i in widget.data) {
-      if (i.Category == widget.category) {
+    print(widget.comingFromIslemler);
+    if (widget.comingFromIslemler == 0) {
+      for (var i in widget.data) {
+        if (i.Category == widget.category) {
+          list.add(i);
+        }
+      }
+    } else {
+      for (var i in widget.data) {
         list.add(i);
       }
     }
@@ -58,11 +70,13 @@ class _informationNotiesState extends State<informationNoties> {
                     padding: const EdgeInsets.fromLTRB(18, 8, 0, 0),
                     child: DecoratedIcon(
                       icon: Icon(Icons.notifications,
-                          color: seen == "Mesaj_Okunmadı"
+                          color: seen == "Mesaj_Okunmadı" ||
+                                  seen == "Mesaj Okunmadı"
                               ? primaryBrand
                               : headColor),
                       decoration: IconDecoration(
-                          border: seen == "Mesaj_Okunmadı"
+                          border: seen == "Mesaj_Okunmadı" ||
+                                  seen == "Mesaj Okunmadı"
                               ? IconBorder()
                               : IconBorder(width: 5, color: primaryBrand)),
                     ),
@@ -70,13 +84,17 @@ class _informationNotiesState extends State<informationNoties> {
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
                     child: Text(
-                      seen == "Mesaj_Okundu" ? "Okundu" : "Okunmadı",
+                      seen == "Mesaj_Okundu" || seen == "Mesaj Okundu"
+                          ? "Okundu"
+                          : "Okunmadı",
                       style: TextStyle(
-                          color: seen == "Mesaj_Okunmadı"
+                          color: seen == "Mesaj_Okunmadı" ||
+                                  seen == "Mesaj Okunmadı"
                               ? primaryBrand
                               : primaryGray,
                           fontSize: 14,
-                          fontWeight: seen == "Mesaj_Okunmadı"
+                          fontWeight: seen == "Mesaj_Okunmadı" ||
+                                  seen == "Mesaj Okunmadı"
                               ? FontWeight.bold
                               : FontWeight.normal),
                     ),
@@ -103,12 +121,14 @@ class _informationNotiesState extends State<informationNoties> {
                       child: Text(
                         title,
                         style: TextStyle(
-                            color: seen == "Mesaj_Okundu"
-                                ? primaryGray
-                                : Colors.black,
-                            fontWeight: seen == "Mesaj_Okundu"
-                                ? FontWeight.w400
-                                : FontWeight.w400),
+                            color:
+                                seen == "Mesaj_Okundu" || seen == "Mesaj Okundu"
+                                    ? primaryGray
+                                    : Colors.black,
+                            fontWeight:
+                                seen == "Mesaj_Okundu" || seen == "Mesaj Okundu"
+                                    ? FontWeight.w400
+                                    : FontWeight.w400),
                       ),
                     ),
                   ),
@@ -129,6 +149,9 @@ class _informationNotiesState extends State<informationNoties> {
                           // widget.data[index].MessageStatus = "Mesaj_Okundu";
                           list[index].MessageStatus = "Mesaj_Okundu";
                           print(" index budur: $index");
+                          if (result == "Mesaj Okundu") result = "Mesaj_Okundu";
+                          if (result == "Mesaj Okunmadı")
+                            result = "Mesaj Okunmadı";
                           list[index].MessageStatus = result;
                           // String? result = await Navigator.push(
                           //     context,
